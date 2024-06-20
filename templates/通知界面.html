@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CSS HTML笔记本文字样式 www.bootstrapmb.com</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="../static/css/remind-style.css">
+<style>
+  .back-button {
+    font-family: 'STXingkai';
+    display: block;
+    margin: 20px 0;
+    background-color: #fff;
+    /* 设置为白色 */
+    color: #000;
+    /* 设置为黑色 */
+    border: 1px solid #fff;
+    /* 添加黑色边框 */
+    border-radius: 5px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+    /* 根据需要调整字体大小 */
+    line-height: 2em;
+    /* 使按钮内部有足够的高度 */
+  }
+
+
+  .back-button:hover {
+    background-color: #555;
+    /* 设置为较浅的黑色（灰色） */
+  }
+</style>
+</head>
+<body>
+<!-- partial:index.partial.html -->
+
+<article>
+  <h2>缴费通知：</h2>
+  <ol>
+<!--    <li><del>Make a list</del></li>-->
+    <li>保单号：{{item.policy_id}}</li>
+    <li>保险创建时间：{{ item.start }}</li>
+    <li>保险期限：{{item.period}}</li>
+    <li>保险金额：{{item.coverage}}</li>
+      <li>待交金额：{{item.premium}}</li>
+      <li>上次缴费日期：{{item.pay_date}}</li>
+      <li>缴费间隔：{{item.payment_interval}}</li>
+      <li>缴费期限：{{item.duration}}</li>
+    <li>被投保人：{{item.name}}</li>
+    <button class="back-button" onclick="goBack()">返回</button>
+  </ol>
+  
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</article>
+
+
+ 
+<!-- partial -->
+  
+</body>
+</html>

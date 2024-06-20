@@ -1,0 +1,136 @@
+﻿<!doctype html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+    <title>Bootstrap留言表单样式代码</title>
+
+    <link rel="stylesheet" href="../static/plugins/bootstrap-4.6.2/css/bootstrap.css">
+
+    <!--main css-->
+    <link rel="stylesheet" type="text/css" href="../static/css/style-submit.css">
+    <link rel="stylesheet" href="../static/css/word-style.css">
+    <style>
+        body{
+            font-family: 'STXingkai';
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <section id="contact-area"  >
+        <div class="container">
+           
+            <!--end section heading-->
+            <div class="row">
+                <div class="col-lg-10 offset-lg-1">
+                    <!--start contact form-->
+                    <div class="contact-box text-center">
+                        <h1>保险产品信息填写</h1>
+                        <form id="ajax-contact" action="contact.php" method="post" onsubmit="return validateForm()">
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" id="policy_id" name="policy_id id" placeholder="保单号" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control" id="name" name="name" placeholder="被投保人姓名" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" id="starting_date" name="starting_date" placeholder="保险生效日期" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control" id="lasting" name="lasting" placeholder="保险期限" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" id="product_id" name="product_id" placeholder="产品号" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control" id="product_name" name="product_name" placeholder="产品名称" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control" id="cash_1" name="cash_1" placeholder="保险金额" required>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="email" class="form-control" id="cash_2" name="cash_2" placeholder="保险费用" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="id" name="id" placeholder="身份证号">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="location" name="location" placeholder="联系地址" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="phone_number" name="phone_number" placeholder="联系电话" required>
+                            </div>
+                            
+<!--                            <div class="form-group">-->
+<!--                                <textarea class="form-control" id="message" name="message" rows="10" placeholder="留言内容*" required></textarea>-->
+<!--                            </div>-->
+                            <button type="submit">提 交</button>
+                            <div id="form-messages"></div>
+                        </form>
+                    </div>
+                    <!--end contact form-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+<script>
+function validateForm() {
+    var product_id = document.getElementById("product_id").value;
+    var name = document.getElementById("name").value;
+    var type = document.getElementById("type").value;
+    var isValid = true;
+
+    // 产品号验证
+    if (product_id.trim() === "") {
+        document.getElementById("product_id_error").innerHTML = "请输入保单号";
+        isValid = false;
+    } else {
+        document.getElementById("product_id_error").innerHTML = "";
+    }
+
+    // 名称验证
+    if (name.trim() === "") {
+        document.getElementById("name_error").innerHTML = "请输入被投保人姓名";
+        isValid = false;
+    } else {
+        document.getElementById("name_error").innerHTML = "";
+    }
+
+    // 类型验证
+    if (type.trim() === "") {
+        document.getElementById("type_error").innerHTML = "请输入投保类型";
+        isValid = false;
+    } else {
+        document.getElementById("type_error").innerHTML = "";
+    }
+    // 类型验证
+    if (type.trim() === "") {
+        document.getElementById("type_error").innerHTML = "请输入类型";
+        isValid = false;
+    } else {
+        document.getElementById("type_error").innerHTML = "";
+    }
+    return isValid;
+}
+</script>
+<script src="../static/js/jquery-3.7.1.min.js"></script>
+<script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
+<script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="../static/js/left-side-menu.js"></script>
+</body>
+
+</html>

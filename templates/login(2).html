@@ -1,0 +1,80 @@
+﻿
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录界面</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <!-- <meta name="keywords" content="Badge Signup Form template Responsive, Login form web template,Flat Pricing tables,Flat Drop downs  Sign up Web Templates, Flat Web Templates, Login sign up Responsive web template, SmartPhone Compatible web template, free WebDesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" /> -->
+
+    <!-- Custom Theme files -->
+    <link href="../static/css/login-style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- //Custom Theme files -->
+
+</head>
+<body>
+    <!-- main -->
+    <div class="w3layouts-main">
+        <h1>登录</h1>
+        <div class="agilesign-form">
+            <div class="agileits-top">
+                <form id="loginForm">
+                    <div class="styled-input w3ls-text">
+                        <input type="text" name="用户名" required="" />
+                        <label>用户名</label>
+                        <span></span>
+                    </div>
+                    <div class="styled-input w3ls-text">
+                        <input type="password" name="密码" required="">
+                        <label>密码</label>
+                        <span></span>
+                    </div>
+                    <div class="agileits-bottom">
+                        <input type="submit" value="登录">
+                    </div>
+                </form>
+                <div id="message" style="color: red; margin-top: 10px;"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var formData = new FormData(this);
+
+            // "/login"根据实际情况修改
+            fetch('/login', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                var messageDiv = document.getElementById('message');
+                if (data.success) {
+                    messageDiv.textContent = '登录成功';
+                    messageDiv.style.color = 'green';
+                    // 可以根据需要重定向到其他页面
+                    window.location.href = '/home';
+                } else {
+                    messageDiv.textContent = '用户名或密码错误';
+                    messageDiv.style.color = 'red';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
+
+<!-- 后端参考： -->
+<!-- @app.route('/login', methods=['POST'])
+def login():
+    username = request.form['用户名']
+    password = request.form['密码']
+    # 简单示例：假设用户名为'admin'且密码为'password'
+    if username == 'admin' and password == 'password':
+        return jsonify(success=True)
+    else:
+        return jsonify(success=False) -->

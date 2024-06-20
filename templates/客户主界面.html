@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>客户主界面</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap-4.6.2/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/plugins/fontawesome-free-6.5.2-web/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="../static/font/iconfont.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/css/mention.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style-submit.css">
+    <link rel="stylesheet" href="../static/css/word-style.css">
+    <link rel="stylesheet" href="../static/css/style-main.css">
+    <link rel="stylesheet" href="../static/css/common.css">
+    <link rel="stylesheet" href="../static/css/iconfont.css">
+    <link rel="stylesheet" href="../static/css/jquery.dropdown_select.css">
+    <link rel="stylesheet" href="../static/css/FrostModals.min.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Microsoft YaHei';
+        }
+
+        .rightBorder {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 100px;
+        }
+
+        .disappear {
+            display: none !important;
+        }
+
+        .right-side-content {
+            flex-grow: 1;
+            /* 右侧内容占据剩余空间 */
+            padding: 20px;
+            /* 内边距 */
+            box-sizing: border-box;
+            /* 盒模型 */
+            overflow-y: auto;
+            /* 如果内容超出高度，显示垂直滚动条 */
+            align-items: center;
+        }
+
+        .container2 {
+            display: flex;
+            /* 使用 Flexbox 布局 */
+
+        }
+
+        .table {
+            width: 100%;
+            /* 表格宽度占据整个容器 */
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            /* 输入框组与表格之间的间距 */
+        }
+
+        .show_back_ground {
+            background-color: #4e555b;
+        }
+
+        .radius {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table td {
+            vertical-align: middle;
+            /* 让每个 td 内容垂直居中 */
+        }
+
+        .margin {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .left_full {
+            width: 240px;
+            /* 左侧菜单宽度 */
+            /*height: 50vh; !* 左侧菜单高度固定为视口高度的 100% *!*/
+            padding: 20px;
+            /* 内边距 */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light"
+        style="background-color: #e3f2fd;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px">
+        <!--    跳转回主界面-->
+        <a class="navbar-brand" href="#">家庭保单小管家</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+             <form class="form-inline mr-auto ml-auto" id="search" action="/search" method="get">
+    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+            <div class="rightBorder">
+                <ul class="navbar-right navbar-nav nav">
+                     <a class="dropdown-item disappear" id="pdf" href="/updatepdf/{{policy_id }}">上传pdf</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">
+                            用户
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="personal-center/{{ ID }}">个人中心</a>
+                        </div>
+                    </li>
+            </div>
+            
+            <button type="button" class="button-default show-notifications js-show-notifications">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30"
+                    height="32" viewBox="0 0 30 32">
+                    <defs>
+                        <g id="icon-bell">
+                            <path class="path1"
+                                d="M15.143 30.286q0-0.286-0.286-0.286-1.054 0-1.813-0.759t-0.759-1.813q0-0.286-0.286-0.286t-0.286 0.286q0 1.304 0.92 2.223t2.223 0.92q0.286 0 0.286-0.286zM3.268 25.143h23.179q-2.929-3.232-4.402-7.348t-1.473-8.652q0-4.571-5.714-4.571t-5.714 4.571q0 4.536-1.473 8.652t-4.402 7.348zM29.714 25.143q0 0.929-0.679 1.607t-1.607 0.679h-8q0 1.893-1.339 3.232t-3.232 1.339-3.232-1.339-1.339-3.232h-8q-0.929 0-1.607-0.679t-0.679-1.607q3.393-2.875 5.125-7.098t1.732-8.902q0-2.946 1.714-4.679t4.714-2.089q-0.143-0.321-0.143-0.661 0-0.714 0.5-1.214t1.214-0.5 1.214 0.5 0.5 1.214q0 0.339-0.143 0.661 3 0.357 4.714 2.089t1.714 4.679q0 4.679 1.732 8.902t5.125 7.098z" />
+                        </g>
+                    </defs>
+                    <g fill="#000000">
+                        <use xlink:href="#icon-bell" transform="translate(0 0)"></use>
+                    </g>
+                </svg>
+                <div class="notifications-count js-count"></div>
+            </button>
+            </ul>
+        </div>
+    </nav>
+    <div class="container2 margin">
+        <div class="left_full">
+            <div class="left-side-menu">
+                <div class="lsm-container">
+                    <div class="lsm-scroll">
+                        <div class="lsm-sidebar">
+                            <ul>
+                                <li class="lsm-sidebar-item radius show_back_ground" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_1">家庭投保记录</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="st">统计信息</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_2">家庭索赔记录</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_3">保险产品</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_1">添加投保信息</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_2">添加索赔信息</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_3">添加保险产品</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_4">添加缴费信息</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_5">添加公司信息</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side-content" >
+            <table class="table" id="Table_1">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">被保人姓名</th>
+                        <th scope="col">保险类型</th>
+                        <th scope="col">保额</th>
+                        <th scope="col">产品名称</th>
+                        <th scope="col">保险到期时间</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                                <tbody>
+            {% for item in data_list %}
+            <tr>
+                <td>{{ item.insured_name }}</td>
+                <td>{{ item.product_type }}</td>
+                <td>{{ item.coverage }}</td>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.period }}</td>
+                <td>
+                    <a href="/information/{{ item.policy_id }}"><button type="button" class="btn btn-light">详细信息</button></a>
+                    <a href="/change/{{ item.policy_id }}"><button type="button" class="btn btn-danger">修改</button></a>
+                     <a href="/deletepolicy/{{ item.policy_id }}"><button type="button" class="btn btn-danger">删除</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </tbody>
+            </table>
+            <div class="container disappear" id="statistic">
+                <div class="col-md-6 ">
+                    <div id="chart-1"></div>
+                </div>
+                <div class="col-md-6 ">
+                    <div id="chart-2"></div>
+                </div>
+                <!-- 单选 -->
+                <div class="select_box">
+                    <div class="select_item time_box">
+                        <select style="display: none;" id="Time" placeholder="时间" name="choose_one" code=""> </select>
+                    </div>
+                </div>
+                <!-- 统计表格 -->
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">家庭成员</th>
+                            <th scope="col">保单数量</th>
+                            <th scope="col">总保额</th>
+                            <th scope="col">总费用</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-statistic">
+                        <tr>
+                            <td>A</td>
+                            <td>2</td>
+                            <td>1</td>
+                            <td>5</td>
+                            <td>
+                                <a href="#"><button type="button" class="btn btn-light"
+                                        onclick=AI(this)>AI分析</button></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>B</td>
+                            <td>1</td>
+                            <td>2</td>
+                            <td>4</td>
+                            <td>
+                                <a href="#"><button type="button" class="btn btn-light"
+                                        onclick=AI(this)>AI分析</button></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>C</td>
+                            <td>2</td>
+                            <td>3</td>
+                            <td>8</td>
+                            <td>
+                                <a href="#"><button type="button" class="btn btn-light"
+                                        onclick=AI(this)>AI分析</button></a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>D</td>
+                            <td>5</td>
+                            <td>4</td>
+                            <td>2</td>
+                            <td>
+                                <a href="#"><button type="button" class="btn btn-light"
+                                        onclick=AI(this)>AI分析</button></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <table class="table disappear" id="Table_2">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">姓名</th>
+                        <th scope="col">保险类型</th>
+                        <th scope="col">索赔金额</th>
+                        <th scope="col">保险索赔日期</th>
+                        <th scope="col">产品名称</th>
+                        <th scope="col">保险公司</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+            {% for item in data_list1 %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.product_type }}</td>
+                <td>{{ item.amount}}</td>
+                <td>{{ item.claim_date}}</td>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.company_name }}</td>
+                <td>
+                    <a href="/information/{{ item.policy_id }}"><button type="button" class="btn btn-light">详细信息</button></a>
+                    <a href="/change/{{ item.policy_id }}"><button type="button" class="btn btn-danger">修改</button></a>
+                    <a href="/deletepolicy/{{ item.policy_id }}"><button type="button" class="btn btn-danger">删除</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+            </table>
+        <table class="table disappear" id="Table_3">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">产品名称</th>
+                        <th scope="col">产品类型</th>
+                        <th scope="col">保险公司</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+            {% for item in data_list %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.product_type }}</td>
+                <td>{{ item.company_name }}</td>
+                <td>
+                    <a href="/information1/{{ item.product_name }}"><button type="button" class="btn btn-light">详细信息</button></a>
+                    <a href="/change1/{{ item.product_name }}"><button type="button" class="btn btn-danger">修改</button></a>
+                    <a href="/deleteproduct/{{ item.pro_id }}"><button type="button" class="btn btn-danger">删除</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+            </table>
+
+            <!-- 如果要修改信息，把原本信息先传入前端显示 -->
+            <div class="container disappear" id="submit_first">
+                <!--end section heading-->
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <!--start contact form-->
+                        <div class="contact-box text-center">
+                            <h1 style="color: black;">保险产品信息填写</h1>
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                            placeholder="保单号" required>
+                                    </div>
+                                    <div class="col-lg-6">
+
+                                        <div class="select_box">
+                                    <div class="select_item pro_name">
+                                        <select style="display: none;" id="pro_name" placeholder="产品名称" name="pro_name" code="" name="单选窗口"> </select>
+                                    </div>
+                                </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="date" class="form-control" id="start" name="start"
+                                            placeholder="保险生效日期" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="period" min="1" name="period"
+                                            placeholder="保险期限" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="payment_interval" name="payment_interval"
+                                            placeholder="交费间隔" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="duration" name="duration"
+                                            placeholder="交费期限" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="coverage" min="0" name="coverage"
+                                            placeholder="保险金额(RMB)" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="premium" min="0" name="premium"
+                                            placeholder="保险费用(RMB)" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="select_box">
+                                    <div class="select_item policy_holder_name">
+                                        <select style="display: none;" id="policy_holder_name" placeholder="投保人" name="policy_holder_name" code="" name="单选窗口"> </select>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="form-group">
+
+                                    <div class="select_box">
+                                    <div class="select_item insured_name">
+                                        <select style="display: none;" id="insured_name" placeholder="被保人" name="insured_name" code="" name="单选窗口"> </select>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="form-group">
+
+                                <div class="select_box">
+                                    <div class="select_item beneficiary_name">
+                                        <select style="display: none;" id="beneficiary_name" multiple placeholder="受益人" name="beneficiary_name" code="" ></select>
+                                    </div>
+                                     </div>
+                                </div>
+                                <!-- 单选 -->
+
+                                <button type="submit">提 交</button>
+                                <div id="form-messages"></div>
+                            </form>
+                        </div>
+                        <!--end contact form-->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container disappear" id="submit_second">
+                <!--end section heading-->
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <!--start contact form-->
+                        <div class="contact-box text-center">
+                            <h1 style="color: black;">索赔信息填写</h1>
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="claim_id" name="claim_id"
+                                            placeholder="索赔id号" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                            placeholder="保单号" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="date" class="form-control" id="claim_date" name="claim_date"
+                                            placeholder="赔付日期" required>
+                                    </div>
+                                    <div class="col-lg-6">
+
+                                        <div class="select_box">
+                                    <div class="select_item claim_name">
+                                        <select style="display: none;" id="claim_name" placeholder="索赔人姓名" name="claim_name" code="" name="单选窗口"> </select>
+                                    </div>
+                                     </div>
+                                    </div>
+                                </div>
+                                
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="amount" name="amount"
+                                        placeholder="索赔金额" required>
+                                </div>
+                                <button type="submit">提 交</button>
+                                <div id="form-messages"></div>
+                            </form>
+                        </div>
+                        <!--end contact form-->
+                    </div>
+                </div>
+            </div>
+            <div class="container disappear" id="submit_third">
+                <!--end section heading-->
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <!--start contact form-->
+                        <div class="contact-box text-center">
+                            <h1 style="color: black;">保险产品填写</h1>
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="pro_id" name="pro_id"
+                                            placeholder="产品id号" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="pro_name" name="pro_name"
+                                            placeholder="产品名称" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+
+                                    <div class="col-lg-6">
+
+                                        <div class="select_box">
+                                    <div class="select_item type">
+                                        <select style="display: none;" id="type" placeholder="保险类型" name="type" code="" name="单选窗口"> </select>
+                                    </div>
+                                </div>
+                                    </div>
+
+ <div class="col-lg-6">
+
+
+                                        <div class="select_box">
+                                    <div class="select_item company_name">
+                                        <select style="display: none;" id="company_name" placeholder="公司名称" name="company_name" code="" name="单选窗口"> </select>
+                                    </div>
+                                </div>
+</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="introduction" name="introduction"
+                                        placeholder="产品简介" required>
+                                </div>
+                                <button type="submit">提 交</button>
+                                <div id="form-messages"></div>
+                            </form>
+                        </div>
+                        <!--end contact form-->
+                    </div>
+                </div>
+            </div>
+        <div class="container disappear" id="submit_forth">
+                <!--end section heading-->
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <!--start contact form-->
+                        <div class="contact-box text-center">
+                            <h1 style="color: black;">缴费信息填写</h1>
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                                <div class="form-group row">
+                                   <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="pay_id" name="pay_id"
+                                            placeholder="缴费id号" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                            placeholder="保单号" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+
+                                    <div class="col-lg-6">
+                                        <input type="date" class="form-control" id="pay_date" name="pay_date"
+                                            placeholder="缴费日期" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="pay_name" name="pay_name"
+                                            placeholder="缴费人" required>
+                                    </div>
+
+
+                                </div>
+                                <div class="form-group row">
+                                        <input type="text" class="form-control" id="bank_account" name="bank_account"
+                                            placeholder="银行账号" required>
+                                    </div>
+
+                                <button type="submit">提 交</button>
+                                <div id="form-messages"></div>
+                            </form>
+                        </div>
+                        <!--end contact form-->
+                    </div>
+                </div>
+            </div>
+            <div class="container disappear" id="submit_fifth">
+                <!--end section heading-->
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <!--start contact form-->
+                        <div class="contact-box text-center">
+                            <h1 style="color: black;">保险公司信息填写</h1>
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                                <div class="form-group row">
+                                   <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="company_name" name="company_name"
+                                            placeholder="公司名称" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="com_phone_num" name="com_phone_num"
+                                            placeholder="公司电话" required>
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="com_address" name="com_address"
+                                        placeholder="公司地址" required>
+                                </div>
+                                <button type="submit">提 交</button>
+                                <div id="form-messages"></div>
+                            </form>
+                        </div>
+                        <!--end contact form-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../static/js/jquery-3.7.1.min.js"></script>
+    <script>
+        function clickme(self) {
+            if (!$(self).hasClass('show_back_ground')) {
+                $(self).addClass('show_back_ground');
+                $(self).siblings().removeClass('show_back_ground')
+            }
+            var textContent = $(self).find('span').attr('id');
+            if (textContent === 'record_1' && $('#Table_1').hasClass('disappear')) {
+                var element = $('#Table_1');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#search').children().removeClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }
+            } else if (textContent === 'record_2'&& $('#Table_2').hasClass('disappear')) {
+                var element = $('#Table_2');
+                element.removeClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#search').children().removeClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }
+            } else if (textContent === 'add_1'&& $('#submit_first').hasClass('disappear')) {
+                var element = $('#submit_first');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#pdf').removeClass('disappear')
+                $('#search').children().addClass('disappear');
+            }else if (textContent === 'add_2'&& $('#submit_second').hasClass('disappear')){
+                var element = $('#submit_second');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#search').children().addClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }
+            }else if (textContent === 'record_3'&& $('#Table_3').hasClass('disappear')) {
+                var element = $('#Table_3');
+                element.removeClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#search').children().removeClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }
+            }else if (textContent === 'add_3'&& $('#submit_third').hasClass('disappear')){
+                var element = $('#submit_third');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#search').children().addClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }
+            }else if (textContent === 'add_4'&& $('#submit_forth').hasClass('disappear')) {
+                var element = $('#submit_forth');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#search').children().addClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }
+            }
+            else if (textContent === 'add_5'&& $('#submit_fifth').hasClass('disappear')) {
+                var element = $('#submit_fifth');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#statistic').addClass('disappear');
+                $('#search').children().addClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }
+            } else if (textContent === 'st' && $('#statistic').hasClass('disappear')) {
+                var element = $('#statistic');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#Table_3').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#submit_fifth').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_third').addClass('disappear');
+                $('#submit_forth').addClass('disappear');
+                $('#search').children().addClass('disappear');
+                if(!$('#pdf').hasClass('disappear')){
+                    $('#pdf').addClass('disappear');
+                }}
+        }
+
+
+    </script>
+    <script>
+        function AI(self) {
+            FrostifyModal.set({
+                title: 'AI投保建议',
+                // 这里一定要加custom-modal-content否则字体是白色的
+                content: '<div class="custom-modal-content">Lorem ipsum dolor sit amet,www.bootstrapmb.com consectetur adipisicing elit. \
+                    Accusantium ad amet, aut delectus deserunt doloremque eos eum facere fuga minus mollitia nemo numquam obcaecati, omnis quod saepe sit, voluptate. Nihil!</div>',
+                onok: () => { },
+                oncancel: () => { },
+                isClosable: true,
+                isDraggable: true,
+                reverseButtons: false,
+                labels: {
+                    ok: '好的',
+                    cancel: '关闭'
+                },
+            }).show();
+        }
+    </script>
+     <script src="../static/js/jquery.dropdown.js"></script>
+      <script>
+        var names = {{ names | tojson | safe }};
+        names = names.map(function(item) {
+        return {
+            'selected': false ,
+            'name': item.name,
+            'id': item.id
+        };
+    });
+        var pro_names = {{ pro_names | tojson | safe }};
+        pro_names = pro_names.map(function(item) {
+        return {
+            'selected': false ,
+            'name': item.name,
+            'id': item.id
+        };
+    });
+         var company_names = {{ company_names | tojson | safe }};
+        company_names = company_names.map(function(item) {
+        return {
+            'selected': false ,
+            'name': item.name,
+            'id': item.id
+        };
+    });
+    // 使用获取到的数据初始化下拉菜单
+
+                    $('.beneficiary_name').dropdown({
+                        data: names,
+                        readonly: false,
+                        searchable: false,
+                        limitCount: 2000,
+                        multipleMode: '',
+                        choice: function (ele) {
+                        console.log(ele);
+                        },
+                        del: function () {
+                        // 删除选项时，你可能需要从 selectedOptions 数组中移除相应的元素
+                        console.log('删除:', '初始化页面数据');
+                        }
+                        });
+
+    $('.claim_name').dropdown({
+                        data: names,
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+    $('.insured_name').dropdown({
+            data: names,
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+    $('.policy_holder_name').dropdown({
+            data: names,
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+    $('.pro_name').dropdown({
+            data: pro_names,
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+    $('.company_name').dropdown({
+            data: company_names,
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+    $('.type').dropdown({
+            data: [{'selected':false,'name':'人寿险','id':'人寿险'},{ 'selected':false,'name':'意外险','id':'意外险'},{ 'selected':false,'name':'健康险','id':'健康险'},{'selected':false,'name':'财产险','id':'财产险'},{'selected':false,'name':'车险','id':'车险'},{'selected':false,'name':'旅游险','id':'旅游险'},{'selected':false,'name':'重疾险','id':'重疾险'},{'selected':false,'name':'医疗险','id':'医疗险'},{'selected':false,'name':'意外险','id':'意外险'},{'selected':false,'name':'其他','id':'其他'}],
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+    $('.time_box').dropdown({
+            data: [
+                { "selected": false, "name": "2024", "id": "2024" },
+                { "selected": false, "name": "2023", "id": "2023" },
+                { "selected": false, "name": "2022", "id": "2022" },
+                { "selected": false, "name": "2021", "id": "2021" }
+            ],
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+
+        //发布时间-单选
+
+   </script>
+    <script>
+        $(document).ready(function () {
+            var categories = [];
+            var data_2 = [];
+            var data_3 = [];
+            var data_4 = [];
+
+            // Read data from table
+            $('#table-statistic tr').each(function () {
+                var name = $(this).find('td:nth-child(1)').text();
+                var value_2 = parseInt($(this).find('td:nth-child(2)').text());
+                var value_3 = parseInt($(this).find('td:nth-child(3)').text());
+                var value_4 = parseInt($(this).find('td:nth-child(4)').text());
+
+                console.log(name, value_3, value_4); // Log the values to debug
+
+                categories.push(name);
+                data_2.push(value_2);
+                data_3.push(value_3);
+                data_4.push(value_4);
+            });
+
+            console.log("Categories:", categories);
+            console.log("Data 3:", data_3);
+            console.log("Data 4:", data_4);
+
+            var options = {
+                series: [{
+                    name: "总保费",
+                    data: data_3
+                }, {
+                    name: "总保额",
+                    data: data_4
+                }],
+                chart: {
+                    height: 350,
+                    type: 'line',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    foreColor: '#000' // Setting font color to black
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                title: {
+                    text: '每个成员保费、保额情况',
+                    align: 'left',
+                    style: {
+                        fontSize: '16px',
+                        color: '#000' // Setting font color to black
+                    }
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: categories,
+                    labels: {
+                        style: {
+                            colors: '#000' // Setting font color to black
+                        }
+                    }
+                },
+                yaxis: [
+                    {
+                        title: {
+                            text: '总保费（元）',
+                        },
+                    },
+                    {
+                        opposite: true,
+                        title: {
+                            text: '总保额（万元）',
+                        },
+                    },
+                ],
+                markers: {
+                    size: 0
+                },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    theme: {
+                        mode: 'light', // Set the theme mode to light
+                        style: {
+                            fontSize: '12px',
+                            fontFamily: 'Helvetica, Arial, sans-serif',
+                            color: '#000' // Setting font color to black
+                        }
+                    },
+                    y: {
+                        formatter: function (y) {
+                            if (typeof y !== "undefined") {
+                                return y.toFixed(0) + " points";
+                            }
+                            return y;
+                        }
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#chart-1"), options);
+            chart.render();
+
+            var options2 = {
+                series: [{
+                    name: "Data",
+                    data: data_2
+                }],
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    foreColor: '#000'
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '50%',
+                        endingShape: 'rounded'
+                    },
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                title: {
+                    text: '保单数量',
+                    align: 'left',
+                    style: {
+                        fontSize: '16px',
+                        color: '#000'
+                    }
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'],
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: categories,
+                    labels: {
+                        style: {
+                            colors: '#000'
+                        }
+                    }
+                },
+                markers: {
+                    size: 0
+                },
+                tooltip: {
+                    shared: true,
+                    intersect: false,
+                    theme: {
+                        mode: 'light',
+                        style: {
+                            fontSize: '12px',
+                            fontFamily: 'Helvetica, Arial, sans-serif',
+                            color: '#000'
+                        }
+                    },
+                    y: {
+                        formatter: function (y) {
+                            if (typeof y !== "undefined") {
+                                return y.toFixed(0) + " points";
+                            }
+                            return y;
+                        }
+                    }
+                }
+            };
+
+            var chart2 = new ApexCharts(document.querySelector("#chart-2"), options2);
+            chart2.render();
+        });
+    </script>
+    <script src="../static/js/jquery-3.7.1.min.js"></script>
+    <script src="../static/js/jquery.dropdown.js"></script>
+    <script src='../static/js/jquery.min.js'></script>
+    <script src='../static/js/mustache.min.js'></script>
+    <script src="../static/js/script-1.js"></script>
+
+    <script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="../static/js/left-side-menu.js"></script>
+    <script src="../static/js/apexcharts.js"></script>
+</body>
+
+</html>

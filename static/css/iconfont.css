@@ -1,0 +1,42 @@
+@font-face {
+  font-family: "iconfont";
+  src: url('iconfont.woff2?t=1698731433831') format('woff2'),
+    url('iconfont.woff?t=1698731433831') format('woff'),
+    url('iconfont.ttf?t=1698731433831') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-kongjianxuanzhong:before {
+  content: "\ebef";
+}
+
+.icon-kongjianweixuan:before {
+  content: "\ebf0";
+}
+
+.icon-select-bold:before {
+  content: "\e68a";
+}
+
+.icon-guanbi:before {
+  content: "\e608";
+}
+
+.icon-zhengque1:before {
+  content: "\e633";
+}
+
+.icon-radio-line:before {
+  content: "\ea06";
+}
+
+.icon-radiochecked2:before {
+  content: "\e849";
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>保险产品修改</title>
+    <link href="../static/css/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/plugins/bootstrap-4.6.2/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/plugins/fontawesome-free-6.5.2-web/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="../static/font/iconfont.css">
+    <link href="../static/css/settings.css" rel="stylesheet">
+    <style>
+        .style_7 {
+            margin: 25px auto;
+            /*width: 430px;*/
+            height: 1000px;
+            background-color: #ffffff;
+            box-shadow: rgba(175,175,175,1.00);
+        }
+        .radius{
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .marg{
+            margin: 5px;
+        }
+        .scrollable {
+            overflow-x: auto;
+        }
+        .hide{
+            display: none;
+        }
+        body{
+            font-family: 'STXingkai';
+            font-size: 22px;
+        }
+        .back-button {
+            font-family: 'STXingkai';
+            display: block;
+            margin: 20px auto;
+            background-color: #fff;
+            /* 设置为白色 */
+            color: #000;
+            /* 设置为黑色 */
+            border: 1px solid #fff;
+            /* 添加黑色边框 */
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+            /* 根据需要调整字体大小 */
+            line-height: 2em;
+            /* 使按钮内部有足够的高度 */
+        }
+    
+    
+        .back-button:hover {
+            background-color: #555;
+            /* 设置为较浅的黑色（灰色） */
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 radius">
+            <div class="style_7 radius">
+                <div class="row ">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp">
+                        <div class="row pro" id="old">
+                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                                <div class="round14"></div>
+                            </div>
+                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+                                <h5>保险产品修改</h5>
+                            </div>
+                            <div class="border_btm3"></div>
+                        </div>
+        
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp " style="overflow: scroll;">
+                        <!-- action根据后端填写 -->
+                        <form action="/" method="post">
+                            <div class="row" style="height: 800px;">
+
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                    <label>产品名称: </label>
+                                    <label id="n">{{ item.pro_name }}</label>
+                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
+                                        value="修改" id="pro_name" />
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                    <label>产品类型: </label>
+                                    <label id="n">{{ item.type }}</label>
+                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
+                                        value="修改" id="type" />
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                    <label>产品简介: </label>
+                                    <label id="n">{{ item.introduction }}</label>
+                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
+                                        value="修改" id="introduction" />
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                    <label>保险公司: </label>
+                                    <label id="n">{{ item.company_name }}</label>
+                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
+                                        value="修改" id="company_name" />
+                                </div>
+
+
+        
+
+        
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="back-button" onclick="goBack()">返回</button>
+</div>
+<script src="../static/js/jquery-3.7.1.min.js"></script>
+<script>
+    function create(self){
+        if($(self).hasClass("btn btn-secondary marg float-lg-right")){
+            var type = $(self).attr('id');
+            $(self).prop("type", type);
+            $(self).prop("placeholder", "请输入内容");
+            $(self).prop("value", "");
+            $(self).removeClass();
+            // $(self).prop("class","form-control")
+            $(self).siblings("label#n").addClass('hide');
+
+            var submit=$("<input>",{
+                type:"button",
+                class:"btn btn-secondary marg float-lg-right",
+                value:"确认",
+                onclick: "change_back(this, '" + type + "')"
+            })
+            $(self).after(submit);
+        }
+    }
+
+    function sendData(field, value) {
+    $.ajax({
+        type: 'POST',
+        url: '/update_field_product',
+        data: { field: field, value: value },
+        success: function(response) {
+            alert('更新成功！');
+        },
+        error: function(xhr, status, error) {
+            alert('更新失败！');
+
+        }
+    });
+}
+    function change_back(self, field) {
+    var type = $(self).siblings('input[value="修改"]').attr('type');
+var change = $("<input>", {
+    type: "button",
+    class: "btn btn-secondary marg float-lg-right",
+    onclick: "create(this, '" + field + "')",
+    value: "修改",
+    id: type
+});
+$(self).siblings("label#n").removeClass('hide');
+if ($(self).siblings('input[value="修改"]').val().trim() !== "") {
+    $(self).siblings("label#n").text($(self).siblings('input[value="修改"]').val());
+    sendData(field, $(self).siblings('input[value="修改"]').val());
+}
+$(self).siblings("input").remove();
+$(self).parent().append(change);
+$(self).remove();
+}
+</script>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

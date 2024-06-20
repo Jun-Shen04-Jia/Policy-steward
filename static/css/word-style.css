@@ -1,0 +1,115 @@
+.so-many-shadows {
+  text-shadow: 
+    3px 3px 0 yellow, 
+    6px 6px 0 blue, 
+    9px 9px red,
+    12px 12px 0 black;
+  
+  /* other styling */
+  font-family: var(--ff-title);
+  font-weight: var(--fw-title);
+  text-transform: uppercase;
+  font-size: calc(2rem + 5vw);
+  text-align: center;
+  margin: 0;
+  color: var(--clr-primary);
+}
+
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {  
+  --clr-primary: #ee6352;
+  --clr-secondary: #d16e8d;
+  --clr-accent: #F7F7FF;
+  --clr-gradient: linear-gradient(-90deg, var(--clr-primary), var(--clr-secondary));
+  --ff-title: bungee, sans-serif;
+  --ff-body: canada-type-gibson,sans-serif;
+  --fw-body: 300;
+  --fw-bold: 800;
+  --fw-title: 400;
+  --fw-number: 800;
+}
+
+.body {
+  min-height: 100vh;
+  font-family: var(--ff-body);
+  font-weight: var(--fw-body);
+  font-size: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover,
+a:focus {
+  color: var(--clr-accent);
+}
+
+:focus {
+  outline: 5px solid var(--clr-accent);
+  outline-offset: 3px;
+}
+
+.title,
+.credits {
+  text-align: center;
+  text-transform: uppercase;
+  padding: 1em 0 2em;
+  margin: 0;
+  background: var(--clr-gradient);
+  position: relative;
+  z-index: 1000;
+}
+
+.title {
+  font-size: calc(1rem + 3vw);
+  font-family: 'STXingkai';
+  font-weight: var(--fw-title);
+  color: white;
+  text-shadow: 3px 5px 10px rgba(0,0,0, .2);
+  -webkit-clip-path: polygon(0 0, 100% 0%, 100% 60%, 0% 100%);
+          clip-path: polygon(0 0, 100% 0%, 100% 60%, 0% 100%);
+}
+
+.title span {
+    font-weight: var(--fw-number);
+    color: black;
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    font-size: 5em;
+    top: -30%;
+    z-index: -1;
+    opacity: .25
+  }
+
+.content {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+}
+
+.credits {
+  font-family: var(--ff-title);
+  width: 100%;
+  margin: 0;
+  padding: 6em 0 1em;
+  -webkit-clip-path: polygon(0 60%, 100% 0, 100% 100%, 0% 100%);
+          clip-path: polygon(0 60%, 100% 0, 100% 100%, 0% 100%);
+  color: rgba(black, .7);
+}
+
+.credits p:last-child {
+  font-size: .8em;
+}

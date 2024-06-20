@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>客户主界面</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap-4.6.2/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/plugins/fontawesome-free-6.5.2-web/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="../static/font/iconfont.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../static/css/mention.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/style-submit.css">
+    <link rel="stylesheet" href="../static/css/word-style.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'STXingkai';
+        }
+
+        .rightBorder {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding-right: 100px;
+        }
+
+        .disappear {
+            display: none !important;
+        }
+
+        .right-side-content {
+            flex-grow: 1;
+            /* 右侧内容占据剩余空间 */
+            padding: 20px;
+            /* 内边距 */
+            box-sizing: border-box;
+            /* 盒模型 */
+            overflow-y: auto;
+            /* 如果内容超出高度，显示垂直滚动条 */
+            align-items: center;
+        }
+
+        .container2 {
+            display: flex;
+            /* 使用 Flexbox 布局 */
+
+        }
+
+        .table {
+            width: 100%;
+            /* 表格宽度占据整个容器 */
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            /* 输入框组与表格之间的间距 */
+        }
+
+        .show_back_ground {
+            background-color: #4e555b;
+        }
+
+        .radius {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table td {
+            vertical-align: middle;
+            /* 让每个 td 内容垂直居中 */
+        }
+
+        .margin {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .left_full {
+            width: 240px;
+            /* 左侧菜单宽度 */
+            /*height: 50vh; !* 左侧菜单高度固定为视口高度的 100% *!*/
+            padding: 20px;
+            /* 内边距 */
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light"
+        style="background-color: #e3f2fd;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px">
+        <!--    跳转回主界面-->
+        <a class="navbar-brand" href="#">家庭保单小管家</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <form class="form-inline mr-auto ml-auto" id="search" action="/search" method="get">
+    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+            <div class="rightBorder">
+                <ul class="navbar-right navbar-nav nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">
+                            用户
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="personal-center/{{ ID }}">个人中心</a>
+                            <a class="dropdown-item" href="remind">保险通知</a>
+                        </div>
+                    </li>
+            </div>
+            
+            <!-- 消息提醒对应的js是script.js -->
+            <a href="remind" style="display: inline-block; width: 50px; height: 50px;">
+                <svg class="bell-icon" viewBox="0 0 100 100" height="100%" width="100%">
+                    <defs>
+                        <path id="bellBody9"
+                            d="M 44 8 A 1 1 0 0 1 56 8 V 12 Q 80 17 80 41 Q 80 61 90 69 C 94 72 92 80 86 80 H 14 C 8 80 6 72 10 69 Q 20 61 20 41 Q 20 17 44 12 Z"
+                            fill="#000">
+                            <animateTransform attributeName="transform" attributeType="XML" type="rotate"
+                                values="0 50 45; -12 50 45; 0 50 45; 12 50 45; 0 50 45" dur="400ms" begin="0s"
+                                repeatCount="9" keyTimes="0;0.4;0.5;0.6;1"
+                                keySplines="0.67 0.01 0.39 0.98; 0.67 0.01 0.39 0.98; 0.67 0.01 0.39 0.98; 0.67 0.01 0.39 0.98"
+                                calcMode="spline"></animateTransform>
+                        </path>
+                        <circle id="badge9" cx="83" cy="27" r="15" fill="steelblue">
+                            <animate attributeName="r" values="15;17;15" dur="400ms" begin="0s" repeatCount="9">
+                            </animate>
+                        </circle>
+                        <mask id="mBell9">
+                            <rect x="0" y="0" width="100" height="100" fill="#fff"></rect>
+                            <use href="#bellBody9" fill="#000" stroke="#000" stroke-width="10"></use>
+                        </mask>
+                        <mask id="m9">
+                            <rect x="0" y="0" width="100" height="100" fill="#fff"></rect>
+                            <use href="#badge9" fill="#fff" stroke="#000" stroke-width="10"></use>
+                        </mask>
+                        <mask id="mm9">
+                            <circle cx="83" cy="27" r="15" fill="#fff"></circle>
+                        </mask>
+                    </defs>
+                    <g mask="url(#m9)">
+                        <use href="#bellBody9"></use>
+                        <circle class="bellGong" cx="50" cy="85" r="11" fill="#000" mask="url(#mBell9)">
+                            <animate attributeName="cx" values="50; 40; 50; 60; 50" dur="400ms" begin="0s"
+                                repeatCount="9" keyTimes="0;0.4;0.5;0.6;1"
+                                keySplines="0.67 0.01 0.39 0.98; 0.67 0.01 0.39 0.98; 0.67 0.01 0.39 0.98; 0.67 0.01 0.39 0.98"
+                                calcMode="spline"></animate>
+                        </circle>
+                    </g>
+                    <use href="#badge9"></use>
+                    <g mask="url(#mm9)">
+                        <g transform="translate(77 34)">
+                            <g>
+                                <text x="0" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">0</text>
+                                <text x="100" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">1</text>
+                                <text x="200" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">2</text>
+                                <text x="300" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">3</text>
+                                <text x="400" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">4</text>
+                                <text x="500" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">5</text>
+                                <text x="600" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">6</text>
+                                <text x="700" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">7</text>
+                                <text x="800" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">8</text>
+                                <text x="894" y="0" font-size="20" fill="#fff" font-weight="600"
+                                    font-family="monospace">9+</text>
+                                <animateTransform attributeName="transform" type="translate"
+                                    values="0 0;-100 0;-200 0;-300 0;-400 0;-500 0;-600 0;-700 0;-800 0;-900 0"
+                                    dur="3600ms" begin="0s" calcMode="discrete" fill="freeze"></animateTransform>
+                            </g>
+                        </g>
+                    </g>
+                </svg>
+            </a>
+            </ul>
+        </div>
+    </nav>
+    <div class="container2 margin">
+        <div class="left_full">
+            <div class="left-side-menu">
+                <div class="lsm-container">
+                    <div class="lsm-scroll">
+                        <div class="lsm-sidebar">
+                            <ul>
+                                <li class="lsm-sidebar-item radius show_back_ground" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_1">家庭投保记录</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_2">家庭索赔记录</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_1">添加投保信息</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                                <li class="lsm-sidebar-item radius" onclick="clickme(this)">
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_2">添加索赔信息</span><i
+                                            class="my-icon lsm-sidebar-more"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right-side-content" >
+            <table class="table" id="Table_1">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">被保人姓名</th>
+                        <th scope="col">保险类型</th>
+                        <th scope="col">保费</th>
+                        <th scope="col">保险到期时间</th>
+                        <th scope="col">保险公司</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                                <tbody>
+            {% for item in data_list %}
+            <tr>
+                <td>{{ item.insured_name }}</td>
+                <td>{{ item.product_type }}</td>
+                <td>{{ item.premium }}</td>
+                <td>{{ item.period }}</td>
+                <td>{{ item.company_name }}</td>
+                <td>
+                    <a href="/information/{{ item.policy_id }}"><button type="button" class="btn btn-light">详细信息</button></a>
+                    <a href="{{ item.href }}"><button type="button" class="btn btn-danger">修改</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+            </table>
+            <table class="table disappear" id="Table_2">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">姓名</th>
+                        <th scope="col">保险类型</th>
+                        <th scope="col">索赔金额</th>
+                        <th scope="col">保险索赔日期</th>
+                        <th scope="col">保险公司</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+            {% for item in data_list1 %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.product_type }}</td>
+                <td>{{ item.amount}}</td>
+                <td>{{ item.claim_date}}</td>
+                <td>{{ item.company_name }}</td>
+                <td>
+                    <a href="/information/{{ item.policy_id }}"><button type="button" class="btn btn-light">详细信息</button></a>
+                    <a href="{{ item.href }}"><button type="button" class="btn btn-danger">修改</button></a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+            </table>
+
+            <!-- 如果要修改信息，把原本信息先传入前端显示 -->
+            <div class="container disappear" id="submit_first">
+                <!--end section heading-->
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <!--start contact form-->
+                        <div class="contact-box text-center">
+                            <h1>保险产品信息填写</h1>
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                            placeholder="保单号" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            placeholder="被投保人姓名" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="date" class="form-control" id="starting_date" name="starting_date"
+                                            placeholder="保险生效日期" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="number" class="form-control" id="lasting" min="1" name="lasting"
+                                            placeholder="保险期限(天)" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="product_id" name="product_id"
+                                            placeholder="产品号" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="product_name" name="product_name"
+                                            placeholder="产品名称" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="number" class="form-control" id="cash_1" min="0" name="cash_1"
+                                            placeholder="保险金额(RMB)" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="number" class="form-control" id="cash_2" min="0" name="cash_2"
+                                            placeholder="保险费用(RMB)" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="id" name="id" placeholder="身份证号" pattern="\d{15}|\d{18}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="location" name="location"
+                                        placeholder="联系地址" required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="tel" class="form-control" id="phone_number" name="phone_number"
+                                        placeholder="联系电话" pattern="\d{11}" required>
+                                </div>
+                                <button type="submit">提 交</button>
+                                <div id="form-messages"></div>
+                            </form>
+                        </div>
+                        <!--end contact form-->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="container disappear" id="submit_second">
+                <!--end section heading-->
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <!--start contact form-->
+                        <div class="contact-box text-center">
+                            <h1>索赔信息填写</h1>
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="pay_id" name="pay_id"
+                                            placeholder="索赔id号" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                            placeholder="保单号" required>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-lg-6">
+                                        <input type="date" class="form-control" id="starting_date" name="starting_date"
+                                            placeholder="赔付日期" required>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            placeholder="被投保人姓名" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="id" name="id" placeholder="身份证号" pattern="\d{15}|\d{18}">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="bank_account" name="bank_account"
+                                        placeholder="银行账号" required>
+                                </div>
+                                <button type="submit">提 交</button>
+                                <div id="form-messages"></div>
+                            </form>
+                        </div>
+                        <!--end contact form-->
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+
+    <script src="../static/js/jquery-3.7.1.min.js"></script>
+    <script>
+        function clickme(self) {
+            if (!$(self).hasClass('show_back_ground')) {
+                $(self).addClass('show_back_ground');
+                $(self).siblings().removeClass('show_back_ground')
+            }
+            var textContent = $(self).find('span').attr('id');
+            if (textContent === 'record_1' && $('#Table_1').hasClass('disappear')) {
+                var element = $('#Table_1');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#search').children().removeClass('disappear');
+            } else if (textContent === 'record_2'&& $('#Table_2').hasClass('disappear')) {
+                var element = $('#Table_2');
+                element.removeClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#search').children().removeClass('disappear');
+            } else if (textContent === 'add_1'&& $('#submit_first').hasClass('disappear')) {
+                var element = $('#submit_first');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#submit_second').addClass('disappear');
+                $('#search').children().addClass('disappear');
+            }else if (textContent === 'add_2'&& $('#submit_second').hasClass('disappear')){
+                var element = $('#submit_second');
+                element.removeClass('disappear');
+                $('#Table_2').addClass('disappear');
+                $('#Table_1').addClass('disappear');
+                $('#submit_first').addClass('disappear');
+                $('#search').children().addClass('disappear');
+            }
+        }
+
+    </script>
+
+    <script src="../static/js/jquery-3.7.1.min.js"></script>
+    <script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="../static/js/left-side-menu.js"></script>
+    <script src="../static/js/script.js"></script>
+</body>
+
+</html>

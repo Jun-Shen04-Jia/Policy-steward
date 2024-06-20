@@ -1,0 +1,239 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="数据可视化" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/plugins/bootstrap-4.6.2/css/bootstrap.css">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>商品销售折线图js插件</title>
+    <link rel="stylesheet" href="../static/plugins/fontawesome-free-6.5.2-web/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="../static/font/iconfont.css">
+    <style>
+        .margin {
+            margin: 10px auto;
+        }
+    
+        body {
+            margin: 0;
+            font-family: 'STXingkai';
+            font-size: 22px;
+        }
+    
+        .long_article {
+            overflow-wrap: break-word;
+        }
+    
+        .outline {
+            border: 2px dashed #9fcdff;
+            /* 虚线框样式，2px宽度，黑色 */
+            padding: 20px;
+            /* 为了使内容不贴近虚线框，添加一些内边距 */
+        }
+    
+        .round_corner {
+            border-radius: 10px;
+        }
+    
+        .rightBorder {
+            padding-right: 100px;
+        }
+        #chart {
+            max-width: 650px;
+            margin: 35px auto;
+        }
+    
+        .back-button {
+            font-family: 'STXingkai';
+            display: block;
+            margin: 20px auto;
+            background-color: #fff;
+            /* 设置为白色 */
+            color: #000;
+            /* 设置为黑色 */
+            border: 1px solid #fff;
+            /* 添加黑色边框 */
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+            /* 根据需要调整字体大小 */
+            line-height: 2em;
+            /* 使按钮内部有足够的高度 */
+        }
+    
+    
+        .back-button:hover {
+            background-color: #555;
+            /* 设置为较浅的黑色（灰色） */
+        }
+    </style>
+
+    <script src="../static/js/apexcharts.js"></script>
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px">
+    <!--    跳转回主界面-->
+    <a class="navbar-brand" href="#">家庭保单小管家</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <form class="form-inline mr-auto ml-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <div class="rightBorder">
+            <ul class="navbar-right navbar-nav nav">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                        用户
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">个人中心</a>
+                        <a class="dropdown-item" href="#">保险通知</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="row margin">
+    <div class="col-md-6 margin">
+        <div id="chart-1"></div>
+    </div>
+    <div class="col-md-6 margin">
+        <div id="chart-2"></div>
+    </div>
+</div>
+<button class="back-button" onclick="goBack()">返回</button>
+<script>
+
+    var options = {
+        series: [{
+            name: "Desktops",
+            data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
+        }],
+        chart: {
+            height: 350,
+            type: 'line',
+            // zoom: {
+            //     enabled: false
+            // }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        title: {
+            text: '商品销售折线图',
+            align: 'left'
+        },
+        grid: {
+            row: {
+                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                opacity: 0.5
+            },
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+        },
+        markers: {
+            size: 0
+        },
+        tooltip: {
+            shared: true,
+            intersect: false,
+            y: {
+                formatter: function (y) {
+                    if (typeof y !== "undefined") {
+                        return y.toFixed(0) + " points";
+                    }
+                    return y;
+                }
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart-1"), options);
+    chart.render();
+
+    var options_2 = {
+        series: [{
+            name: 'TEAM A',
+            type: 'area',
+            data: [44, 55, 31, 47, 31, 43, 26, 41, 31, 47, 33]
+        }, {
+            name: 'TEAM B',
+            type: 'line',
+            data: [55, 69, 45, 61, 43, 54, 37, 52, 44, 61, 43]
+        }],
+        chart: {
+            height: 350,
+            type: 'line',
+        },
+        stroke: {
+            curve: 'smooth'
+        },
+        title: {
+            text: '商品销售曲线面积图',
+            align: 'left'
+        },
+        fill: {
+            type: 'solid',
+            opacity: [0.35, 1],
+        },
+        labels: ['Dec 01', 'Dec 02', 'Dec 03', 'Dec 04', 'Dec 05', 'Dec 06', 'Dec 07', 'Dec 08', 'Dec 09 ', 'Dec 10', 'Dec 11'],
+        markers: {
+            size: 0
+        },
+        yaxis: [
+            {
+                title: {
+                    text: 'Series A',
+                },
+            },
+            {
+                opposite: true,
+                title: {
+                    text: 'Series B',
+                },
+            },
+        ],
+        tooltip: {
+            shared: true,
+            intersect: false,
+            y: {
+                formatter: function (y) {
+                    if (typeof y !== "undefined") {
+                        return y.toFixed(0) + " points";
+                    }
+                    return y;
+                }
+            }
+        }
+    };
+
+    var chart_2 = new ApexCharts(document.querySelector("#chart-2"), options_2);
+    chart_2.render();
+
+</script>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<script src="../static/js/jquery-3.7.1.min.js"></script>
+<script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
+<script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="../static/js/left-side-menu.js"></script>
+<script src="../static/js/script.js"></script>
+</body>
+</html>

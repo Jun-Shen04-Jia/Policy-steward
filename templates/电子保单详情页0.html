@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>电子保单详情页</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap-4.6.2/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/plugins/fontawesome-free-6.5.2-web/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="../static/font/iconfont.css">
+    <style>
+        .container {
+            width: 900px;
+            margin: 80px auto;
+        }
+        .box {
+            width: 80px;
+            height: 80px;
+            float: left;
+            margin-left: 10px;
+        }
+    
+        .box img {
+            width: 80px;
+            max-width: 80px;
+        }
+    
+        .box button {
+            width: 100%;
+        }
+        .margin {
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'STXingkai';
+            font-size: 22px;
+        }
+
+        .long_article {
+            overflow-wrap: break-word;
+        }
+
+        .outline {
+            border: 2px dashed #9fcdff;
+            /* 虚线框样式，2px宽度，黑色 */
+            padding: 20px;
+            /* 为了使内容不贴近虚线框，添加一些内边距 */
+        }
+
+        .round_corner {
+            border-radius: 10px;
+        }
+
+        .rightBorder {
+            padding-right: 100px;
+        }
+
+        .back-button {
+            font-family: 'STXingkai';
+            display: block;
+            margin: 20px auto;
+            background-color: #fff;
+            /* 设置为白色 */
+            color: #000;
+            /* 设置为黑色 */
+            border: 1px solid #fff;
+            /* 添加黑色边框 */
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+            /* 根据需要调整字体大小 */
+            line-height: 2em;
+            /* 使按钮内部有足够的高度 */
+        }
+
+
+        .back-button:hover {
+            background-color: #555;
+            /* 设置为较浅的黑色（灰色） */
+        }
+
+        .cwts {
+            height: 30px;
+            line-height: 30px !important;
+            text-indent: 1em;
+            width: 60%;
+            position: absolute;
+            top: 5px;
+            left: 30%;
+        }
+
+        #pdfContainer {
+            height: 800px !important;
+            width: 100%;
+        }
+
+        .buy_hui,
+        .buy_hui:hover {
+            background: #aaa;
+        }
+
+        .btn_hot {
+            bottom: 30px;
+            top: auto;
+            height: 50px;
+            line-height: 50px;
+            font-size: 16px;
+        }
+
+        .pro_modal .modal-body {
+            padding: 0;
+            height: auto
+        }
+
+        .pro_modal .modal-body ul {
+            padding: 10px 50px;
+        }
+
+        .buy_modal_pay {
+            padding: 0;
+            box-shadow: none;
+            height: 2em;
+            width: 4em;
+            border-radius: .7em;
+            color: #1082ff;
+            border: 1px solid #1082ff;
+            line-height: 2em !important;
+            background: none;
+            float: right !important;
+            margin-right: 40px
+        }
+
+        .modal-dialog {
+            height: 690px;
+        }
+
+        .tan_a {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            position: relative;
+            top: 2px;
+        }
+
+        .upgrade_title .close_title {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 20px;
+            right: 20px;
+            z-index: 100
+        }
+
+        .upgrade_title .close_title img {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light"
+        style="background-color: #e3f2fd;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px">
+        <!--    跳转回主界面-->
+        <a class="navbar-brand" href="#">家庭保单小管家</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <form class="form-inline mr-auto ml-auto">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
+
+            <div class="rightBorder">
+                <ul class="navbar-right navbar-nav nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">
+                            用户
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">个人中心</a>
+                            <a class="dropdown-item" href="#">保险通知</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div style="text-align: center;" class="margin">
+            <h1>保单详情信息</h1>
+        </div>
+        <div class="outline round_corner margin">
+            <h2 class="margin">保单基本信息：</h2>
+            <div class="row margin">
+                <div class="col-md-4">保单号：############</div>
+                <div class="col-md-4">保险生效时间：****年**月**日</div>
+                <div class="col-md-4">保险期限：****年**月**日</div>
+            </div>
+            <div class="row margin">
+                <div class="col-md-8">保险金额：#####元</div>
+                <div class="col-md-4">保险费用：#####元</div>
+            </div>
+            <div class="row margin">
+                <div class="col-md-4">被投保人：#####</div>
+                <div class="col-md-4">证件类型：#####</div>
+                <div class="col-md-4">身份证号：**************</div>
+            </div>
+            <div class="row margin">
+                <div class="col-md-8">联系地址：########################</div>
+                <div class="col-md-4">联系电话：**************</div>
+            </div>
+        </div>
+        <div class="outline round_corner margin">
+            <h2>保险产品信息：</h2>
+            <div class="row margin ">
+                <div class="col-md-12">产品号：*****************</div>
+            </div>
+            <div class="row margin ">
+                <div class="col-md-12">产品名称：#############</div>
+            </div>
+            <div class="row margin">
+                <div class="col-md-12">产品类型：#############</div>
+            </div>
+            <div class="long_article margin">产品介绍：########################################</div>
+        </div>
+        <h2>保险缴费情况：</h2>
+        <table class="table table-bordered margin">
+            <thead>
+                <tr>
+                    <th scope="col">缴费号</th>
+                    <th scope="col">上缴日期</th>
+                    <th scope="col">缴费银行卡号</th>
+                    <th scope="col">待交保费（元）</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>##############</td>
+                    <td>####年##月##日</td>
+                    <td>##############</td>
+                    <td>#####</td>
+                </tr>
+                <tr>
+                    <td>##############</td>
+                    <td>####年##月##日</td>
+                    <td>##############</td>
+                    <td>#####</td>
+                </tr>
+                <tr>
+                    <td>##############</td>
+                    <td>####年##月##日</td>
+                    <td>##############</td>
+                    <td>#####</td>
+                </tr>
+                <!--            添加示例-->
+                <!--            {% for item in data_list%}-->
+                <!--                <tr>-->
+                <!--                    <td>{{ item.ID }}</td>-->
+                <!--                    <td>{{ item.name }}</td>-->
+                <!--                    <td>{{ item.passport }}</td>-->
+                <!--                    <td>{{ item.phone_number }}</td>-->
+                <!--                    <td>-->
+                <!--                        <a href="item.href"><button type="button" class="btn btn-light">详细信息</button></a>-->
+                <!--                        <a href="item.href"><button type="button" class="btn btn-danger">修改</button></a>-->
+                <!--                    </td>-->
+                <!--                </tr>-->
+                <!--            {% endfor %}-->
+            </tbody>
+        </table>
+
+    </div>
+    <div class="container">
+        <div class="box">
+            <img src="../static/img/pdf.jpg" class="ez" href="../static/pdf/javascript.pdf" alt="">
+        </div>
+    </div>
+    <!-- <button class="back-button" onclick="goBack()">返回</button> -->
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+    <script src="../static/js/jquery-1.11.0.min.js"></script>
+    <script src="../static/js/EZView.js"></script>
+    <script src="../static/js/draggable.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('img.ez').EZView();
+        })
+
+    </script>
+    
+    <script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="../static/js/left-side-menu.js"></script>
+    
+</body>
+
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>保险产品详情页</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap-4.6.2/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/plugins/fontawesome-free-6.5.2-web/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/left-side-menu.css">
+    <link rel="stylesheet" type="text/css" href="../static/font/iconfont.css">
+    <style>
+        .margin{
+            margin-top:10px;
+            margin-bottom: 10px;
+        }
+        body{
+            margin:0;
+            font-family: 'STXingkai';
+            font-size: 22px;
+        }
+        .long_article{
+             overflow-wrap: break-word;
+        }
+        .outline{
+            border: 2px dashed #9fcdff; /* 虚线框样式，2px宽度，黑色 */
+            padding: 20px; /* 为了使内容不贴近虚线框，添加一些内边距 */
+        }
+        .round_corner{
+            border-radius: 10px;
+        }
+        .rightBorder{
+            padding-right: 100px;
+        }
+        .back-button {
+            font-family: 'STXingkai';
+            display: block;
+            margin: 20px auto;
+            background-color: #fff;
+            /* 设置为白色 */
+            color: #000;
+            /* 设置为黑色 */
+            border: 1px solid #fff;
+            /* 添加黑色边框 */
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 16px;
+            /* 根据需要调整字体大小 */
+            line-height: 2em;
+            /* 使按钮内部有足够的高度 */
+        }
+    
+    
+        .back-button:hover {
+            background-color: #555;
+            /* 设置为较浅的黑色（灰色） */
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px">
+    <!--    跳转回主界面-->
+    <a class="navbar-brand" href="#">家庭保单小管家</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor03">
+        <form class="form-inline mr-auto ml-auto">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <div class="rightBorder">
+            <ul class="navbar-right navbar-nav nav">
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                        用户
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="personal-center/{{ ID }}">个人中心</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container">
+    <div style="text-align: center;" class="margin">
+        <h1>保险产品详情信息</h1>
+    </div>
+    <div class="outline round_corner margin">
+        <h2 class="margin">保险产品基本信息：</h2>
+        <div class="row margin">
+            <div class="col-md-4">产品名称：{{ item.pro_name }}</div>
+        </div>
+    <div class="row margin ">
+            <div class="col-md-12">产品类型：{{item.type}}</div>
+        </div>
+        {% if item.product_intro %}
+        <div class="long_article margin">产品介绍：{{ item.introduction }}</div>
+        {% endif %}
+
+    </div>
+    <div class="outline round_corner margin">
+        <h2>保险公司信息：</h2>
+        <div class="row margin ">
+            <div class="col-md-12">公司名称：{{item.company_name}}</div>
+        </div>
+        <div class="row margin ">
+            <div class="col-md-12">公司电话：{{item.com_phone_num}}</div>
+        </div>
+        <div class="row margin ">
+            <div class="col-md-12">公司地址：{{item.com_address}}</div>
+
+        </div>
+    </div>
+
+    {% if data_list2 %}
+<h2>保险索赔情况：</h2>
+<table class="table table-bordered margin">
+    <thead>
+    <tr>
+        <th scope="col">索赔人</th>
+        <th scope="col">索赔日期</th>
+        <th scope="col">索赔金额（元）</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for item2 in data_list2 %}
+        <tr>
+            <td>{{ item2.name }}</td>
+            <td>{{ item2.claim_date }}</td>
+            <td>{{ item2.amount }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+</div>
+<button class="back-button" onclick="goBack()">返回</button>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+<script src="../static/js/jquery-3.7.1.min.js"></script>
+<script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
+<script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="../static/js/left-side-menu.js"></script>
+</body>
+</html>
