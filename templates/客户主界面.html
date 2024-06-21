@@ -102,15 +102,18 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarColor03">
-             <form class="form-inline mr-auto ml-auto" id="search" action="/search" method="get">
-    <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
-    <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-</form>
+            <form class="form-inline mr-auto ml-auto" id="search" action="/search" method="get">
+                <input class="form-control mr-sm-2" type="search" name="query" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+            </form>
 
             <div class="rightBorder">
+                <!-- 添加上传pdf按钮 -->
+                <a class="dropdown-item disappear" id="pdf" href="/updatepdf/{{policy_id }}">上传pdf</a>
                 <ul class="navbar-right navbar-nav nav">
-                     <a class="dropdown-item disappear" id="pdf" href="/updatepdf/{{policy_id }}">上传pdf</a>
+
                     <li class="nav-item dropdown">
+
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                             aria-expanded="false">
                             用户
@@ -119,11 +122,12 @@
                             <a class="dropdown-item" href="personal-center/{{ ID }}">个人中心</a>
                         </div>
                     </li>
+                </ul>
             </div>
-            
+
             <button type="button" class="button-default show-notifications js-show-notifications">
-                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30"
-                    height="32" viewBox="0 0 30 32">
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    width="30" height="32" viewBox="0 0 30 32">
                     <defs>
                         <g id="icon-bell">
                             <path class="path1"
@@ -147,20 +151,20 @@
                         <div class="lsm-sidebar">
                             <ul>
                                 <li class="lsm-sidebar-item radius show_back_ground" onclick="clickme(this)">
-                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_1">家庭投保记录</span><i
-                                            class="my-icon lsm-sidebar-more"></i></a>
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span
+                                            id="record_1">家庭投保记录</span><i class="my-icon lsm-sidebar-more"></i></a>
                                 </li>
                                 <li class="lsm-sidebar-item radius" onclick="clickme(this)">
                                     <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="st">统计信息</span><i
                                             class="my-icon lsm-sidebar-more"></i></a>
                                 </li>
                                 <li class="lsm-sidebar-item radius" onclick="clickme(this)">
-                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_2">家庭索赔记录</span><i
-                                            class="my-icon lsm-sidebar-more"></i></a>
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span
+                                            id="record_2">家庭索赔记录</span><i class="my-icon lsm-sidebar-more"></i></a>
                                 </li>
                                 <li class="lsm-sidebar-item radius" onclick="clickme(this)">
-                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="record_3">保险产品</span><i
-                                            class="my-icon lsm-sidebar-more"></i></a>
+                                    <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span
+                                            id="record_3">保险产品</span><i class="my-icon lsm-sidebar-more"></i></a>
                                 </li>
                                 <li class="lsm-sidebar-item radius" onclick="clickme(this)">
                                     <a href="#"><i class="my-icon lsm-sidebar-icon"></i><span id="add_1">添加投保信息</span><i
@@ -189,7 +193,7 @@
                 </div>
             </div>
         </div>
-        <div class="right-side-content" >
+        <div class="right-side-content">
             <table class="table" id="Table_1">
                 <thead class="thead-dark">
                     <tr>
@@ -201,23 +205,26 @@
                         <th scope="col"></th>
                     </tr>
                 </thead>
-                                <tbody>
-            {% for item in data_list %}
-            <tr>
-                <td>{{ item.insured_name }}</td>
-                <td>{{ item.product_type }}</td>
-                <td>{{ item.coverage }}</td>
-                <td>{{ item.product_name }}</td>
-                <td>{{ item.period }}</td>
-                <td>
-                    <a href="/information/{{ item.policy_id }}"><button type="button" class="btn btn-light">详细信息</button></a>
-                    <a href="/change/{{ item.policy_id }}"><button type="button" class="btn btn-danger">修改</button></a>
-                     <a href="/deletepolicy/{{ item.policy_id }}"><button type="button" class="btn btn-danger">删除</button></a>
-                </td>
-            </tr>
-            {% endfor %}
+                <tbody>
+                    {% for item in data_list %}
+                    <tr>
+                        <td>{{ item.insured_name }}</td>
+                        <td>{{ item.product_type }}</td>
+                        <td>{{ item.coverage }}</td>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.period }}</td>
+                        <td>
+                            <a href="/information/{{ item.policy_id }}"><button type="button"
+                                    class="btn btn-light">详细信息</button></a>
+                            <a href="/change/{{ item.policy_id }}"><button type="button"
+                                    class="btn btn-danger">修改</button></a>
+                            <a href="/deletepolicy/{{ item.policy_id }}"><button type="button"
+                                    class="btn btn-danger">删除</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
 
-        </tbody>
+                </tbody>
             </table>
             <div class="container disappear" id="statistic">
                 <div class="col-md-6 ">
@@ -301,24 +308,27 @@
                     </tr>
                 </thead>
                 <tbody>
-            {% for item in data_list1 %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.product_type }}</td>
-                <td>{{ item.amount}}</td>
-                <td>{{ item.claim_date}}</td>
-                <td>{{ item.product_name }}</td>
-                <td>{{ item.company_name }}</td>
-                <td>
-                    <a href="/information/{{ item.policy_id }}"><button type="button" class="btn btn-light">详细信息</button></a>
-                    <a href="/change/{{ item.policy_id }}"><button type="button" class="btn btn-danger">修改</button></a>
-                    <a href="/deletepolicy/{{ item.policy_id }}"><button type="button" class="btn btn-danger">删除</button></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+                    {% for item in data_list1 %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.product_type }}</td>
+                        <td>{{ item.amount}}</td>
+                        <td>{{ item.claim_date}}</td>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.company_name }}</td>
+                        <td>
+                            <a href="/information/{{ item.policy_id }}"><button type="button"
+                                    class="btn btn-light">详细信息</button></a>
+                            <a href="/change/{{ item.policy_id }}"><button type="button"
+                                    class="btn btn-danger">修改</button></a>
+                            <a href="/deletepolicy/{{ item.policy_id }}"><button type="button"
+                                    class="btn btn-danger">删除</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
-        <table class="table disappear" id="Table_3">
+            <table class="table disappear" id="Table_3">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">产品名称</th>
@@ -328,19 +338,22 @@
                     </tr>
                 </thead>
                 <tbody>
-            {% for item in data_list %}
-            <tr>
-                <td>{{ item.product_name }}</td>
-                <td>{{ item.product_type }}</td>
-                <td>{{ item.company_name }}</td>
-                <td>
-                    <a href="/information1/{{ item.product_name }}"><button type="button" class="btn btn-light">详细信息</button></a>
-                    <a href="/change1/{{ item.product_name }}"><button type="button" class="btn btn-danger">修改</button></a>
-                    <a href="/deleteproduct/{{ item.pro_id }}"><button type="button" class="btn btn-danger">删除</button></a>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
+                    {% for item in data_list %}
+                    <tr>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.product_type }}</td>
+                        <td>{{ item.company_name }}</td>
+                        <td>
+                            <a href="/information1/{{ item.product_name }}"><button type="button"
+                                    class="btn btn-light">详细信息</button></a>
+                            <a href="/change1/{{ item.product_name }}"><button type="button"
+                                    class="btn btn-danger">修改</button></a>
+                            <a href="/deleteproduct/{{ item.pro_id }}"><button type="button"
+                                    class="btn btn-danger">删除</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
             </table>
 
             <!-- 如果要修改信息，把原本信息先传入前端显示 -->
@@ -360,10 +373,11 @@
                                     <div class="col-lg-6">
 
                                         <div class="select_box">
-                                    <div class="select_item pro_name">
-                                        <select style="display: none;" id="pro_name" placeholder="产品名称" name="pro_name" code="" name="单选窗口"> </select>
-                                    </div>
-                                </div>
+                                            <div class="select_item pro_name">
+                                                <select style="display: none;" id="pro_name" placeholder="产品名称"
+                                                    name="pro_name" code="" name="单选窗口"> </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -378,8 +392,8 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="payment_interval" name="payment_interval"
-                                            placeholder="交费间隔" required>
+                                        <input type="text" class="form-control" id="payment_interval"
+                                            name="payment_interval" placeholder="交费间隔" required>
                                     </div>
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="duration" name="duration"
@@ -398,26 +412,29 @@
                                 </div>
                                 <div class="form-group">
                                     <div class="select_box">
-                                    <div class="select_item policy_holder_name">
-                                        <select style="display: none;" id="policy_holder_name" placeholder="投保人" name="policy_holder_name" code="" name="单选窗口"> </select>
+                                        <div class="select_item policy_holder_name">
+                                            <select style="display: none;" id="policy_holder_name" placeholder="投保人"
+                                                name="policy_holder_name" code="" name="单选窗口"> </select>
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
                                 <div class="form-group">
 
                                     <div class="select_box">
-                                    <div class="select_item insured_name">
-                                        <select style="display: none;" id="insured_name" placeholder="被保人" name="insured_name" code="" name="单选窗口"> </select>
+                                        <div class="select_item insured_name">
+                                            <select style="display: none;" id="insured_name" placeholder="被保人"
+                                                name="insured_name" code="" name="单选窗口"> </select>
+                                        </div>
                                     </div>
-                                </div>
                                 </div>
                                 <div class="form-group">
 
-                                <div class="select_box">
-                                    <div class="select_item beneficiary_name">
-                                        <select style="display: none;" id="beneficiary_name" multiple placeholder="受益人" name="beneficiary_name" code="" ></select>
+                                    <div class="select_box">
+                                        <div class="select_item beneficiary_name">
+                                            <select style="display: none;" id="beneficiary_name" multiple
+                                                placeholder="受益人" name="beneficiary_name" code=""></select>
+                                        </div>
                                     </div>
-                                     </div>
                                 </div>
                                 <!-- 单选 -->
 
@@ -429,7 +446,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="container disappear" id="submit_second">
                 <!--end section heading-->
                 <div class="row">
@@ -456,17 +473,18 @@
                                     <div class="col-lg-6">
 
                                         <div class="select_box">
-                                    <div class="select_item claim_name">
-                                        <select style="display: none;" id="claim_name" placeholder="索赔人姓名" name="claim_name" code="" name="单选窗口"> </select>
-                                    </div>
-                                     </div>
+                                            <div class="select_item claim_name">
+                                                <select style="display: none;" id="claim_name" placeholder="索赔人姓名"
+                                                    name="claim_name" code="" name="单选窗口"> </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                
+
 
                                 <div class="form-group">
-                                    <input type="text" class="form-control" id="amount" name="amount"
-                                        placeholder="索赔金额" required>
+                                    <input type="text" class="form-control" id="amount" name="amount" placeholder="索赔金额"
+                                        required>
                                 </div>
                                 <button type="submit">提 交</button>
                                 <div id="form-messages"></div>
@@ -499,21 +517,23 @@
                                     <div class="col-lg-6">
 
                                         <div class="select_box">
-                                    <div class="select_item type">
-                                        <select style="display: none;" id="type" placeholder="保险类型" name="type" code="" name="单选窗口"> </select>
-                                    </div>
-                                </div>
+                                            <div class="select_item type">
+                                                <select style="display: none;" id="type" placeholder="保险类型" name="type"
+                                                    code="" name="单选窗口"> </select>
+                                            </div>
+                                        </div>
                                     </div>
 
- <div class="col-lg-6">
+                                    <div class="col-lg-6">
 
 
                                         <div class="select_box">
-                                    <div class="select_item company_name">
-                                        <select style="display: none;" id="company_name" placeholder="公司名称" name="company_name" code="" name="单选窗口"> </select>
+                                            <div class="select_item company_name">
+                                                <select style="display: none;" id="company_name" placeholder="公司名称"
+                                                    name="company_name" code="" name="单选窗口"> </select>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-</div>
                                 </div>
 
                                 <div class="form-group">
@@ -528,7 +548,7 @@
                     </div>
                 </div>
             </div>
-        <div class="container disappear" id="submit_forth">
+            <div class="container disappear" id="submit_forth">
                 <!--end section heading-->
                 <div class="row">
                     <div class="col-lg-10 offset-lg-1">
@@ -537,7 +557,7 @@
                             <h1 style="color: black;">缴费信息填写</h1>
                             <form id="ajax-contact" method="post" onsubmit="return validateForm()">
                                 <div class="form-group row">
-                                   <div class="col-lg-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" id="pay_id" name="pay_id"
                                             placeholder="缴费id号" required>
                                     </div>
@@ -560,9 +580,9 @@
 
                                 </div>
                                 <div class="form-group row">
-                                        <input type="text" class="form-control" id="bank_account" name="bank_account"
-                                            placeholder="银行账号" required>
-                                    </div>
+                                    <input type="text" class="form-control" id="bank_account" name="bank_account"
+                                        placeholder="银行账号" required>
+                                </div>
 
                                 <button type="submit">提 交</button>
                                 <div id="form-messages"></div>
@@ -581,7 +601,7 @@
                             <h1 style="color: black;">保险公司信息填写</h1>
                             <form id="ajax-contact" method="post" onsubmit="return validateForm()">
                                 <div class="form-group row">
-                                   <div class="col-lg-6">
+                                    <div class="col-lg-6">
                                         <input type="text" class="form-control" id="company_name" name="company_name"
                                             placeholder="公司名称" required>
                                     </div>
@@ -631,10 +651,10 @@
                 $('#submit_forth').addClass('disappear');
                 $('#submit_second').addClass('disappear');
                 $('#search').children().removeClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
-            } else if (textContent === 'record_2'&& $('#Table_2').hasClass('disappear')) {
+            } else if (textContent === 'record_2' && $('#Table_2').hasClass('disappear')) {
                 var element = $('#Table_2');
                 element.removeClass('disappear');
                 $('#Table_1').addClass('disappear');
@@ -646,10 +666,10 @@
                 $('#submit_forth').addClass('disappear');
                 $('#Table_3').addClass('disappear');
                 $('#search').children().removeClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
-            } else if (textContent === 'add_1'&& $('#submit_first').hasClass('disappear')) {
+            } else if (textContent === 'add_1' && $('#submit_first').hasClass('disappear')) {
                 var element = $('#submit_first');
                 element.removeClass('disappear');
                 $('#Table_2').addClass('disappear');
@@ -662,7 +682,7 @@
                 $('#submit_second').addClass('disappear');
                 $('#pdf').removeClass('disappear')
                 $('#search').children().addClass('disappear');
-            }else if (textContent === 'add_2'&& $('#submit_second').hasClass('disappear')){
+            } else if (textContent === 'add_2' && $('#submit_second').hasClass('disappear')) {
                 var element = $('#submit_second');
                 element.removeClass('disappear');
                 $('#Table_2').addClass('disappear');
@@ -674,10 +694,10 @@
                 $('#submit_first').addClass('disappear');
                 $('#submit_forth').addClass('disappear');
                 $('#search').children().addClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
-            }else if (textContent === 'record_3'&& $('#Table_3').hasClass('disappear')) {
+            } else if (textContent === 'record_3' && $('#Table_3').hasClass('disappear')) {
                 var element = $('#Table_3');
                 element.removeClass('disappear');
                 $('#Table_1').addClass('disappear');
@@ -689,10 +709,10 @@
                 $('#submit_forth').addClass('disappear');
                 $('#statistic').addClass('disappear');
                 $('#search').children().removeClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
-            }else if (textContent === 'add_3'&& $('#submit_third').hasClass('disappear')){
+            } else if (textContent === 'add_3' && $('#submit_third').hasClass('disappear')) {
                 var element = $('#submit_third');
                 element.removeClass('disappear');
                 $('#Table_2').addClass('disappear');
@@ -704,10 +724,10 @@
                 $('#submit_forth').addClass('disappear');
                 $('#statistic').addClass('disappear');
                 $('#search').children().addClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
-            }else if (textContent === 'add_4'&& $('#submit_forth').hasClass('disappear')) {
+            } else if (textContent === 'add_4' && $('#submit_forth').hasClass('disappear')) {
                 var element = $('#submit_forth');
                 element.removeClass('disappear');
                 $('#Table_2').addClass('disappear');
@@ -719,11 +739,11 @@
                 $('#statistic').addClass('disappear');
                 $('#submit_fifth').addClass('disappear');
                 $('#search').children().addClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
             }
-            else if (textContent === 'add_5'&& $('#submit_fifth').hasClass('disappear')) {
+            else if (textContent === 'add_5' && $('#submit_fifth').hasClass('disappear')) {
                 var element = $('#submit_fifth');
                 element.removeClass('disappear');
                 $('#Table_2').addClass('disappear');
@@ -735,7 +755,7 @@
                 $('#submit_forth').addClass('disappear');
                 $('#statistic').addClass('disappear');
                 $('#search').children().addClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
             } else if (textContent === 'st' && $('#statistic').hasClass('disappear')) {
@@ -750,9 +770,10 @@
                 $('#submit_third').addClass('disappear');
                 $('#submit_forth').addClass('disappear');
                 $('#search').children().addClass('disappear');
-                if(!$('#pdf').hasClass('disappear')){
+                if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
-                }}
+                }
+            }
         }
 
 
@@ -776,63 +797,50 @@
             }).show();
         }
     </script>
-     <script src="../static/js/jquery.dropdown.js"></script>
-      <script>
+    <script src="../static/js/jquery.dropdown.js"></script>
+    <script>
         var names = {{ names | tojson | safe }};
-        names = names.map(function(item) {
-        return {
-            'selected': false ,
-            'name': item.name,
-            'id': item.id
-        };
-    });
+        names = names.map(function (item) {
+            return {
+                'selected': false,
+                'name': item.name,
+                'id': item.id
+            };
+        });
         var pro_names = {{ pro_names | tojson | safe }};
-        pro_names = pro_names.map(function(item) {
-        return {
-            'selected': false ,
-            'name': item.name,
-            'id': item.id
-        };
-    });
-         var company_names = {{ company_names | tojson | safe }};
-        company_names = company_names.map(function(item) {
-        return {
-            'selected': false ,
-            'name': item.name,
-            'id': item.id
-        };
-    });
-    // 使用获取到的数据初始化下拉菜单
+        pro_names = pro_names.map(function (item) {
+            return {
+                'selected': false,
+                'name': item.name,
+                'id': item.id
+            };
+        });
+        var company_names = {{ company_names | tojson | safe }};
+        company_names = company_names.map(function (item) {
+            return {
+                'selected': false,
+                'name': item.name,
+                'id': item.id
+            };
+        });
+        // 使用获取到的数据初始化下拉菜单
 
-                    $('.beneficiary_name').dropdown({
-                        data: names,
-                        readonly: false,
-                        searchable: false,
-                        limitCount: 2000,
-                        multipleMode: '',
-                        choice: function (ele) {
-                        console.log(ele);
-                        },
-                        del: function () {
-                        // 删除选项时，你可能需要从 selectedOptions 数组中移除相应的元素
-                        console.log('删除:', '初始化页面数据');
-                        }
-                        });
-
-    $('.claim_name').dropdown({
-                        data: names,
+        $('.beneficiary_name').dropdown({
+            data: names,
             readonly: false,
             searchable: false,
             limitCount: 2000,
             multipleMode: '',
-            choice: function (ele) { //单选-直接跳链接
+            choice: function (ele) {
                 console.log(ele);
             },
             del: function () {
+                // 删除选项时，你可能需要从 selectedOptions 数组中移除相应的元素
                 console.log('删除:', '初始化页面数据');
             }
         });
-    $('.insured_name').dropdown({
+
+        $('.claim_name').dropdown({
             data: names,
             readonly: false,
             searchable: false,
@@ -845,7 +853,7 @@
                 console.log('删除:', '初始化页面数据');
             }
         });
-    $('.policy_holder_name').dropdown({
+        $('.insured_name').dropdown({
             data: names,
             readonly: false,
             searchable: false,
@@ -858,7 +866,20 @@
                 console.log('删除:', '初始化页面数据');
             }
         });
-    $('.pro_name').dropdown({
+        $('.policy_holder_name').dropdown({
+            data: names,
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
+        $('.pro_name').dropdown({
             data: pro_names,
             readonly: false,
             searchable: false,
@@ -871,7 +892,7 @@
                 console.log('删除:', '初始化页面数据');
             }
         });
-    $('.company_name').dropdown({
+        $('.company_name').dropdown({
             data: company_names,
             readonly: false,
             searchable: false,
@@ -884,8 +905,8 @@
                 console.log('删除:', '初始化页面数据');
             }
         });
-    $('.type').dropdown({
-            data: [{'selected':false,'name':'人寿险','id':'人寿险'},{ 'selected':false,'name':'意外险','id':'意外险'},{ 'selected':false,'name':'健康险','id':'健康险'},{'selected':false,'name':'财产险','id':'财产险'},{'selected':false,'name':'车险','id':'车险'},{'selected':false,'name':'旅游险','id':'旅游险'},{'selected':false,'name':'重疾险','id':'重疾险'},{'selected':false,'name':'医疗险','id':'医疗险'},{'selected':false,'name':'意外险','id':'意外险'},{'selected':false,'name':'其他','id':'其他'}],
+        $('.type').dropdown({
+            data: [{ 'selected': false, 'name': '人寿险', 'id': '人寿险' }, { 'selected': false, 'name': '意外险', 'id': '意外险' }, { 'selected': false, 'name': '健康险', 'id': '健康险' }, { 'selected': false, 'name': '财产险', 'id': '财产险' }, { 'selected': false, 'name': '车险', 'id': '车险' }, { 'selected': false, 'name': '旅游险', 'id': '旅游险' }, { 'selected': false, 'name': '重疾险', 'id': '重疾险' }, { 'selected': false, 'name': '医疗险', 'id': '医疗险' }, { 'selected': false, 'name': '意外险', 'id': '意外险' }, { 'selected': false, 'name': '其他', 'id': '其他' }],
             readonly: false,
             searchable: false,
             limitCount: 2000,
@@ -897,7 +918,7 @@
                 console.log('删除:', '初始化页面数据');
             }
         });
-    $('.time_box').dropdown({
+        $('.time_box').dropdown({
             data: [
                 { "selected": false, "name": "2024", "id": "2024" },
                 { "selected": false, "name": "2023", "id": "2023" },
@@ -918,7 +939,7 @@
 
         //发布时间-单选
 
-   </script>
+    </script>
     <script>
         $(document).ready(function () {
             var categories = [];

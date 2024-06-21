@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>保单修改</title>
@@ -15,25 +16,31 @@
             /*width: 430px;*/
             height: 1000px;
             background-color: #ffffff;
-            box-shadow: rgba(175,175,175,1.00);
+            box-shadow: rgba(175, 175, 175, 1.00);
         }
-        .radius{
+
+        .radius {
             border-radius: 10px;
             overflow: hidden;
         }
-        .marg{
+
+        .marg {
             margin: 5px;
         }
+
         .scrollable {
             overflow-x: auto;
         }
-        .hide{
+
+        .hide {
             display: none;
         }
-        body{
+
+        body {
             font-family: 'STXingkai';
             font-size: 22px;
         }
+
         .back-button {
             font-family: 'STXingkai';
             display: block;
@@ -52,183 +59,190 @@
             line-height: 2em;
             /* 使按钮内部有足够的高度 */
         }
-    
-    
+
+
         .back-button:hover {
             background-color: #555;
             /* 设置为较浅的黑色（灰色） */
         }
+
+        .centered-heading {
+            text-align: center; /* 文字居中 */
+            display: block;    /* 确保元素独占一行 */
+        }
     </style>
 </head>
+
 <body>
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 radius">
-            <div class="style_7 radius">
-                <div class="row ">
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp">
-                        <div class="row pro" id="old">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-                                <div class="round14"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 radius">
+                <div class="style_7 radius">
+                    <div class="row ">
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp">
+                            <div class="row pro" id="old">
+                                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                                    <div class="round14"></div>
+                                </div>
+                                <div class="centered-heading">
+                                    <h5>保单修改</h5>
+                                </div>
+                                <button class="back-button">
+                                    <!-- 添加上传pdf按钮 -->
+                                    <a id="pdf" href="/updatepdf/{{ item.policy_id }}"
+                                        style="color: black;">上传pdf</a>
+                                </button>
                             </div>
-                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-                                <h5>保单修改</h5>
-                            </div>
-                          <div class="rightBorder">
-    <!-- 添加上传pdf按钮 -->
-    <a class="dropdown-item disappear" id="pdf" href="/updatepdf/{{ item.policy_id }}" style="color: white;">上传pdf</a>
-</div>
-                            <div class="border_btm3"></div>
-                        </div>
-        
-                    </div>
-                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp " style="overflow: scroll;">
-                        <!-- action根据后端填写 -->
-                        <form action="/" method="post">
-                            <div class="row" style="height: 800px;">
-        
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2"
-                                    style="box-sizing: border-box" id="port">
-                                    <label>保单号: </label>
-                                    <label id="n">{{ item.policy_id }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="policy_id" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>产品名称: </label>
-                                    <label id="n">{{ item.product_name }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="pro_name" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>投保人姓名: </label>
-                                    <label id="n">{{ item.policy_holder_name }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="policy_holder_name" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>被投保人姓名: </label>
-                                    <label id="n">{{item.insured_name}}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="insured_name" />
-                                </div>
-                                {% if item.name3 is not none %}
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>受益人姓名: </label>
-                                    <label id="n">{{item.name3}}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="beneficiary_name" />
-                                </div>
-                                {% endif %}
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>保险生效日期: </label>
-                                    <label id="n">{{item.start}}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="start" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>保险期限(天): </label>
-                                    <label id="n">{{ item.period }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="period" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>保险金额(RMB): </label>
-                                    <label id="n">{{ item.coverage }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="coverage" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>保险费用(RMB): </label>
-                                    <label id="n">{{ item.premium }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="premium" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>交费间隔: </label>
-                                    <label id="n">{{ item.payment_interval }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="payment_interval" />
-                                </div>
-                                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                    <label>交费期限: </label>
-                                    <label id="n">{{ item.duration }}</label>
-                                    <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
-                                        value="修改" id="duration" />
-                                </div>
-        
 
-        
-                            </div>
-                        </form>
+                        </div>
+                        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp " style="overflow: scroll;">
+                            <!-- action根据后端填写 -->
+                            <form action="/" method="post">
+                                <div class="row" style="height: 800px;">
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2"
+                                        style="box-sizing: border-box" id="port">
+                                        <label>保单号: </label>
+                                        <label id="n">{{ item.policy_id }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="policy_id" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>产品名称: </label>
+                                        <label id="n">{{ item.product_name }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="pro_name" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>投保人姓名: </label>
+                                        <label id="n">{{ item.policy_holder_name }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="policy_holder_name" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>被投保人姓名: </label>
+                                        <label id="n">{{item.insured_name}}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="insured_name" />
+                                    </div>
+                                    {% if item.name3 is not none %}
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>受益人姓名: </label>
+                                        <label id="n">{{item.name3}}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="beneficiary_name" />
+                                    </div>
+                                    {% endif %}
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>保险生效日期: </label>
+                                        <label id="n">{{item.start}}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="start" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>保险期限(天): </label>
+                                        <label id="n">{{ item.period }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="period" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>保险金额(RMB): </label>
+                                        <label id="n">{{ item.coverage }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="coverage" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>保险费用(RMB): </label>
+                                        <label id="n">{{ item.premium }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="premium" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>交费间隔: </label>
+                                        <label id="n">{{ item.payment_interval }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="payment_interval" />
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>交费期限: </label>
+                                        <label id="n">{{ item.duration }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" value="修改" id="duration" />
+                                    </div>
+
+
+
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <button class="back-button" onclick="goBack()">返回</button>
     </div>
-    <button class="back-button" onclick="goBack()">返回</button>
-</div>
-<script src="../static/js/jquery-3.7.1.min.js"></script>
-<script>
-    function create(self){
-        if($(self).hasClass("btn btn-secondary marg float-lg-right")){
-            var type = $(self).attr('id');
-            $(self).prop("type", type);
-            $(self).prop("placeholder", "请输入内容");
-            $(self).prop("value", "");
-            $(self).removeClass();
-            // $(self).prop("class","form-control")
-            $(self).siblings("label#n").addClass('hide');
+    <script src="../static/js/jquery-3.7.1.min.js"></script>
+    <script>
+        function create(self) {
+            if ($(self).hasClass("btn btn-secondary marg float-lg-right")) {
+                var type = $(self).attr('id');
+                $(self).prop("type", type);
+                $(self).prop("placeholder", "请输入内容");
+                $(self).prop("value", "");
+                $(self).removeClass();
+                // $(self).prop("class","form-control")
+                $(self).siblings("label#n").addClass('hide');
 
-            var submit=$("<input>",{
-                type:"button",
-                class:"btn btn-secondary marg float-lg-right",
-                value:"确认",
-                onclick: "change_back(this, '" + type + "')"
-            })
-            $(self).after(submit);
+                var submit = $("<input>", {
+                    type: "button",
+                    class: "btn btn-secondary marg float-lg-right",
+                    value: "确认",
+                    onclick: "change_back(this, '" + type + "')"
+                })
+                $(self).after(submit);
+            }
         }
-    }
 
-    function sendData(field, value) {
-    $.ajax({
-        type: 'POST',
-        url: '/update_field_policy',
-        data: { field: field, value: value },
-        success: function(response) {
-            alert('更新成功！');
-        },
-        error: function(xhr, status, error) {
-            alert('更新失败！');
+        function sendData(field, value) {
+            $.ajax({
+                type: 'POST',
+                url: '/update_field_policy',
+                data: { field: field, value: value },
+                success: function (response) {
+                    alert('更新成功！');
+                },
+                error: function (xhr, status, error) {
+                    alert('更新失败！');
 
+                }
+            });
         }
-    });
-}
-    function change_back(self, field) {
-    var type = $(self).siblings('input[value="修改"]').attr('type');
-var change = $("<input>", {
-    type: "button",
-    class: "btn btn-secondary marg float-lg-right",
-    onclick: "create(this, '" + field + "')",
-    value: "修改",
-    id: type
-});
-$(self).siblings("label#n").removeClass('hide');
-if ($(self).siblings('input[value="修改"]').val().trim() !== "") {
-    $(self).siblings("label#n").text($(self).siblings('input[value="修改"]').val());
-    sendData(field, $(self).siblings('input[value="修改"]').val());
-}
-$(self).siblings("input").remove();
-$(self).parent().append(change);
-$(self).remove();
-}
-</script>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+        function change_back(self, field) {
+            var type = $(self).siblings('input[value="修改"]').attr('type');
+            var change = $("<input>", {
+                type: "button",
+                class: "btn btn-secondary marg float-lg-right",
+                onclick: "create(this, '" + field + "')",
+                value: "修改",
+                id: type
+            });
+            $(self).siblings("label#n").removeClass('hide');
+            if ($(self).siblings('input[value="修改"]').val().trim() !== "") {
+                $(self).siblings("label#n").text($(self).siblings('input[value="修改"]').val());
+                sendData(field, $(self).siblings('input[value="修改"]').val());
+            }
+            $(self).siblings("input").remove();
+            $(self).parent().append(change);
+            $(self).remove();
+        }
+    </script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
+
 </html>
