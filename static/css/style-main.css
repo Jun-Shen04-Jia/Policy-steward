@@ -60,6 +60,7 @@
     text-align: center;
     top: -2px;
     width: 16px;
+    z-index: 9999;
   }
   .show-notifications.active ~ .notifications {
     opacity: 1;
