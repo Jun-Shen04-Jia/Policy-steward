@@ -60,7 +60,6 @@
     text-align: center;
     top: -2px;
     width: 16px;
-    z-index: 9999;
   }
   .show-notifications.active ~ .notifications {
     opacity: 1;
@@ -83,6 +82,7 @@
     opacity: 0;
     position: absolute;
     top: -999px;
+    z-index: 9999;
   }
   .notifications:after {
     border: 10px solid transparent;
