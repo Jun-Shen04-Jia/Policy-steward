@@ -236,12 +236,7 @@
                 <div class="col-md-6 ">
                     <div id="chart-2"></div>
                 </div>
-                <!-- 单选 -->
-                <div class="select_box">
-                    <div class="select_item time_box">
-                        <select style="display: none;" id="Time" placeholder="时间" name="choose_one" code=""> </select>
-                    </div>
-                </div>
+
                 <!-- 统计表格 -->
                 <table class="table">
                     <thead class="thead-dark">
@@ -254,46 +249,20 @@
                         </tr>
                     </thead>
                     <tbody id="table-statistic">
-                        <tr>
-                            <td>A</td>
-                            <td>2</td>
-                            <td>1</td>
-                            <td>5</td>
-                            <td>
-                                <a href="#"><button type="button" class="btn btn-light"
-                                        onclick=AI(this)>AI分析</button></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>B</td>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td>
-                                <a href="#"><button type="button" class="btn btn-light"
-                                        onclick=AI(this)>AI分析</button></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>C</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>8</td>
-                            <td>
-                                <a href="#"><button type="button" class="btn btn-light"
-                                        onclick=AI(this)>AI分析</button></a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>D</td>
-                            <td>5</td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td>
-                                <a href="#"><button type="button" class="btn btn-light"
-                                        onclick=AI(this)>AI分析</button></a>
-                            </td>
-                        </tr>
+
+                        {% for item in data_list3 %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.policy_count }}</td>
+                        <td>{{ item.total_coverage}}</td>
+                        <td>{{ item.total_premium}}</td>
+                        <td>
+                            <a href="/ai/{{ item.ID }}"><button type="button" class="btn btn-light" onclick="AI(this)" data-id="{{ item.ID }}">AI分析</button>
+                            <a href="/search?query={{ item.name }}"><button type="button" class="btn btn-light"
+                                        onclick=AI(this)>保单列表</button></a>
+                        </td>
+                    </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -366,7 +335,7 @@
                     <div class="col-lg-10 offset-lg-1">
                         <!--start contact form-->
                         <div class="contact-box text-center">
-                            <h1 style="color: black;">保险产品信息填写</h1>
+                            <h1 style="color: black;">投保信息填写</h1>
                             <form id="ajax-contact" method="post" onsubmit="return validateForm_1()">
                                 <div class="form-group row">
                                     <div class="col-lg-6">
@@ -778,23 +747,44 @@
     </script>
     <script src="../static/js/FrostModals.min.js"></script>
     <script>
-        function AI(self) {
-            FrostifyModal.set({
-                title: 'AI投保建议',
-                // 这里一定要加custom-modal-content否则字体是白色的
-                content: '<div class="custom-modal-content">Lorem ipsum dolor sit amet,www.bootstrapmb.com consectetur adipisicing elit. \
-                    Accusantium ad amet, aut delectus deserunt doloremque eos eum facere fuga minus mollitia nemo numquam obcaecati, omnis quod saepe sit, voluptate. Nihil!</div>',
-                onok: () => { },
-                oncancel: () => { },
-                isClosable: true,
-                isDraggable: true,
-                reverseButtons: false,
-                labels: {
-                    ok: '好的',
-                    cancel: '关闭'
-                },
-            }).show();
+        function AI(element) {
+            event.preventDefault();
+    // 使用element.getAttribute来获取data-id属性的值
+    var itemId = element.getAttribute('data-id');
+
+    // 使用fetch发送AJAX请求到Flask应用的/ai/<item.ID>路由
+    fetch('/ai/' + itemId)
+    .then(response => {
+        // 检查响应是否成功
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
         }
+        return response.json(); // 解析JSON数据
+    })
+    .then(data => {
+        // 假设返回的数据中包含一个名为answer的字段
+        var answer = data.answer;
+
+        // 使用返回的答案来设置模态框的内容
+        FrostifyModal.set({
+            title: 'AI投保建议',
+            content: '<div class="custom-modal-content">' + answer + '</div>', // 将答案插入到模态框内容中
+            onok: () => { /* 确定按钮的回调函数 */ },
+            oncancel: () => { /* 取消按钮的回调函数 */ },
+            isClosable: true,
+            isDraggable: true,
+            reverseButtons: false,
+            labels: {
+                ok: '好的',
+                cancel: '关闭'
+            },
+        }).show(); // 显示模态框
+    })
+    .catch(error => {
+        // 打印错误信息到控制台
+        console.error('Error fetching data: ', error);
+    });
+}
     </script>
     <script src="../static/js/jquery.dropdown.js"></script>
     <script>

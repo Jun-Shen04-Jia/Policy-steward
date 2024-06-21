@@ -1,8 +1,12 @@
 from flask import Flask, render_template, redirect, url_for, request,jsonify
 import sqlite3
 import datetime
+import json
 import os
 import random
+import time
+import openai
+import requests
 from datetime import  timedelta
 from flask import session
 import webbrowser
@@ -207,7 +211,76 @@ JOIN
         company_names[i]['name'] = data000[i]['company_name']
         company_names[i]['id'] = data000[i]['company_name']
     print(company_names)
-    return render_template('客户主界面.html',data_list=data,data_list1=data1,ID=session['user_id'],datalist=data2,names=names,pro_names=pro_names,company_names=company_names)
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+              WITH PolicyDetails AS (
+        SELECT
+            m.ID,
+            m.name,
+            mp.policy_id,
+            p.pro_id,
+            p.period,
+            p.coverage,
+            p.premium,
+            p.payment_interval,
+            p.start,
+            CASE
+                WHEN p.payment_interval LIKE '%年' THEN 12
+                WHEN p.payment_interval LIKE '%月' THEN CAST(SUBSTR(p.payment_interval, 1, LENGTH(p.payment_interval) - 1) AS INTEGER)
+                ELSE 1
+            END AS payment_months
+        FROM
+            member m
+        JOIN member_policy mp ON m.ID = mp.ID AND mp.role='被保人'
+        JOIN policy p ON mp.policy_id = p.policy_id
+        WHERE p.start BETWEEN '2020-01-01' AND '2024-12-31'
+    ),
+    PolicyYearlyPremium AS (
+        SELECT
+            pd.*,
+            CASE
+                WHEN strftime('%m', pd.start) = '01' THEN 12
+                WHEN strftime('%Y', pd.start) < strftime('%Y', 'now') THEN 12 -- 如果保单开始年份小于当前年份，则当年有12个月
+                ELSE (12 - strftime('%m', pd.start)) + 1
+            END AS months_in_year
+        FROM PolicyDetails pd
+    ),
+    AdjustedPremium AS (
+        SELECT
+            *,
+            CASE
+                WHEN payment_interval LIKE '%年' THEN premium
+                ELSE (premium / payment_months) * months_in_year
+            END AS adjusted_annual_premium
+        FROM PolicyYearlyPremium
+    ),
+    PolicyYearlyStats AS (
+        SELECT
+            ID,
+            name,
+            strftime('%Y', start) AS start_year,
+            COUNT(DISTINCT policy_id) AS policy_count,
+            SUM(coverage) AS total_coverage,
+            SUM(adjusted_annual_premium) AS total_premium,
+            months_in_year,
+            payment_months,
+            premium
+        FROM AdjustedPremium
+        GROUP BY ID, name -- 确保GROUP BY包含了所有非聚合列
+    )
+    SELECT 
+        *
+    FROM PolicyYearlyStats
+    ORDER BY ID, start_year;
+
+                           '''
+
+    data3 = db.execute(query, ()).fetchall()
+
+    db.close()
+    return render_template('客户主界面.html',data_list=data,data_list1=data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
 
 @app.route('/personal-center/<user_id>')
 def personal_center(user_id):
@@ -234,9 +307,236 @@ def personal_center0(user_id):
     return redirect(url_for('personal_center', user_id=user_id))
 @app.route('/search', methods=['GET'])
 def search():
+    data = None
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+        SELECT 
+        mem.name AS insured_name,po.premium,po.coverage, po.period,
+        po.policy_id,po.start,
+        po.payment_interval, po.duration,po.file AS policy_file,pr.pro_id,
+        pr.type AS product_type,pr.pro_name AS product_name,c.company_name
+    FROM
+        policy po
+    JOIN
+        product pr ON po.pro_id = pr.pro_id
+    JOIN 
+        company c ON pr.company_name = c.company_name
+    LEFT JOIN
+        member_policy mpi ON po.policy_id = mpi.policy_id AND mpi.role = '被保人'
+    LEFT JOIN
+        member mem ON mpi.ID = mem.ID;
+
+            '''
+
+    data = db.execute(query).fetchall()
+    print(type(data[0]))
+    print(data[0])
+    db.close()
+    # 渲染登录页面
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+               SELECT
+        m.name,po.policy_id,cl.claim_date,
+        cl.amount,pr.type AS product_type,c.company_name,pr.pro_name AS product_name
+    FROM
+        member m
+    JOIN
+        member_claim mc ON m.ID = mc.ID
+    JOIN
+        claim cl ON mc.claim_id = cl.claim_id
+    JOIN
+        policy po ON cl.policy_id = po.policy_id
+    JOIN
+        product pr ON po.pro_id = pr.pro_id
+    JOIN
+        company c ON pr.company_name = c.company_name;
+
+                '''
+
+    data1 = db.execute(query).fetchall()
+
+    db.close()
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+
+                    '''
+
+    data2 = db.execute(query).fetchall()
+    data3 = []
+    for item in data2:
+        print(item['policy_id'], item['pay_date'], item['start'], item['payment_interval'], item['duration'])
+    for item in data2:
+        # 将最近已交费日期、起始时间和当前日期转换为 datetime 对象
+        last_pay_date = datetime.datetime.strptime(item['pay_date'], '%Y-%m-%d')
+        start = datetime.datetime.strptime(item['start'], '%Y-%m-%d')
+        current_date = datetime.datetime.now()
+
+        # 计算下次缴费日期
+        if item['payment_interval'] == '1月':
+            next_pay_date = last_pay_date + datetime.timedelta(days=30)  # 假设一个月为30天
+        elif item['payment_interval'] == '1年':
+            next_pay_date = last_pay_date + datetime.timedelta(days=365)  # 假设一年为365天
+        # 其他缴费间隔可以类似处理
+
+        # 计算下次缴费日期与起始时间之间的总天数
+        total_days = (next_pay_date - start).days
+
+        # 将 duration 转换为总天数
+        if item['duration'][-1] == '年':
+            years = int(item['duration'][:-1])
+            total_duration_days = years * 365
+        elif item['duration'][-1] == '月':
+            months = int(item['duration'][:-1])
+            total_duration_days = months * 30
+        # 其他 duration 单位可以类似处理
+
+        # 检查是否超过了 duration
+        if total_days <= total_duration_days:
+            # 计算当前日期与下次缴费日期之间的差异
+            days_until_due = (next_pay_date - current_date).days
+            # 检查保单是否在七天内要缴费
+            if days_until_due <= 30:
+                data3.append(item)
+    db.close()
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+                    SELECT
+                m.name
+            FROM
+                member m;
+
+                        '''
+
+    data0 = db.execute(query).fetchall()
+
+    db.close()
+    names = []
+    for i in range(len(data0)):
+        names.append({})
+        names[i]['selected'] = False
+        names[i]['name'] = data0[i]['name']
+        names[i]['id'] = data0[i]['name']
+    print(names)
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+                        SELECT
+                   pro_name
+                FROM
+                    product;
+
+                            '''
+
+    data00 = db.execute(query).fetchall()
+
+    db.close()
+    pro_names = []
+    for i in range(len(data00)):
+        pro_names.append({})
+        pro_names[i]['selected'] = False
+        pro_names[i]['name'] = data00[i]['pro_name']
+        pro_names[i]['id'] = data00[i]['pro_name']
+    print(pro_names)
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+                           SELECT
+                      company_name
+                   FROM
+                       company;
+
+                               '''
+
+    data000 = db.execute(query).fetchall()
+
+    db.close()
+    company_names = []
+    for i in range(len(data000)):
+        company_names.append({})
+        company_names[i]['selected'] = False
+        company_names[i]['name'] = data000[i]['company_name']
+        company_names[i]['id'] = data000[i]['company_name']
+    print(company_names)
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+                  WITH PolicyDetails AS (
+            SELECT
+                m.ID,
+                m.name,
+                mp.policy_id,
+                p.pro_id,
+                p.period,
+                p.coverage,
+                p.premium,
+                p.payment_interval,
+                p.start,
+                CASE
+                    WHEN p.payment_interval LIKE '%年' THEN 12
+                    WHEN p.payment_interval LIKE '%月' THEN CAST(SUBSTR(p.payment_interval, 1, LENGTH(p.payment_interval) - 1) AS INTEGER)
+                    ELSE 1
+                END AS payment_months
+            FROM
+                member m
+            JOIN member_policy mp ON m.ID = mp.ID AND mp.role='被保人'
+            JOIN policy p ON mp.policy_id = p.policy_id
+            WHERE p.start BETWEEN '2020-01-01' AND '2024-12-31'
+        ),
+        PolicyYearlyPremium AS (
+            SELECT
+                pd.*,
+                CASE
+                    WHEN strftime('%m', pd.start) = '01' THEN 12
+                    WHEN strftime('%Y', pd.start) < strftime('%Y', 'now') THEN 12 -- 如果保单开始年份小于当前年份，则当年有12个月
+                    ELSE (12 - strftime('%m', pd.start)) + 1
+                END AS months_in_year
+            FROM PolicyDetails pd
+        ),
+        AdjustedPremium AS (
+            SELECT
+                *,
+                CASE
+                    WHEN payment_interval LIKE '%年' THEN premium
+                    ELSE (premium / payment_months) * months_in_year
+                END AS adjusted_annual_premium
+            FROM PolicyYearlyPremium
+        ),
+        PolicyYearlyStats AS (
+            SELECT
+                ID,
+                name,
+                strftime('%Y', start) AS start_year,
+                COUNT(DISTINCT policy_id) AS policy_count,
+                SUM(coverage) AS total_coverage,
+                SUM(adjusted_annual_premium) AS total_premium,
+                months_in_year,
+                payment_months,
+                premium
+            FROM AdjustedPremium
+            GROUP BY ID, name -- 确保GROUP BY包含了所有非聚合列
+        )
+        SELECT 
+            *
+        FROM PolicyYearlyStats
+        ORDER BY ID, start_year;
+
+                               '''
+
+    data3 = db.execute(query, ()).fetchall()
+
+    db.close()
     search_query = request.args.get('query', '').lower()
-
-
     db = get_db()
     # Use a parameterized query to prevent SQL injection
     # Replace 'your_table' with your actual table name
@@ -311,7 +611,7 @@ def search():
     filtered_data1 = filter_data(data1, search_query)
 
     # Pass the filtered data to the template
-    return render_template('客户主界面.html',data_list=filtered_data,data_list1=filtered_data1,ID=session['user_id'])
+    return render_template('客户主界面.html',data_list=filtered_data,data_list1=filtered_data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
 
 @app.route('/get_names/', methods=['GET'])
 def get_names():
@@ -470,6 +770,8 @@ GROUP BY
     data2 = db.execute(query, (policy_id,)).fetchall()
 
     db.close()
+
+
     # 渲染登录页面
     return render_template('电子保单详情页.html',item=data[0],data_list1=data1,data_list2=data2,ID=session['user_id'])
 
@@ -670,7 +972,6 @@ def update_field_prodcut():
 @app.route('/homepage', methods=['POST'])
 def home():
     if request.method == 'POST':
-        print(1111111111)
         inuser_name = request.form.get('insured_name')
         print("被保人", inuser_name)
         beneficiary_name = request.form.getlist('beneficiary_name')
@@ -706,6 +1007,7 @@ def home():
 
                 product = cursor.fetchone()
                 if product:
+                    session['filename'] = policy_id + '.pdf'
                     cursor.execute(
                         "INSERT INTO policy (policy_id, pro_id, start, period, coverage, premium, payment_interval, duration, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
                         (policy_id, product['pro_id'], start, period, coverage, premium, payment_interval, duration, policy_id+'pdf'))
@@ -829,6 +1131,9 @@ def deleteproduct(pro_id):
 def updatepdf(policy_id):
     session['filename']=policy_id+'.pdf'
     return render_template('上传pdf.html', policy_id=policy_id)
+@app.route('/uploadpdf')
+def uploadpdf():
+    return render_template('上传pdf.html')
 @app.route('/upload', methods=['POST'])
 def uppdf():
     files = request.files.getlist('files')  # 获取多个文件
@@ -841,5 +1146,38 @@ def uppdf():
         # 保存文件
         file.save(f'static/pdf/{session["filename"]}')
     return render_template('上传pdf.html')
+@app.route('/ai/<ID>')
+def ai(ID):
+    question = ""
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+          select  member.name,po.premium,po.coverage, po.period,po.policy_id,po.start,po.payment_interval, po.duration,po.file AS policy_file,pr.pro_id,pr.type AS product_type,pr.pro_name AS product_name,co.company_name
+              FROM product as pr,company as co,policy as po,member_policy as mp,member
+              WHERE mp.role='被保人' AND po.policy_id=mp.policy_id AND pr.pro_id=po.pro_id AND pr.company_name=co.company_name AND mp.ID=? AND member.ID=mp.ID
+                '''
+
+    data = db.execute(query, (ID,)).fetchall()
+    print(ID,data[0]['period'])
+    question= data[0]['name']+"作为被投保人已经有"+str(len(data))+'份保险。'
+    for i in range(len(data)):
+        question += "第" + str(i + 1) + "份保险的保费为" + str(data[i]['premium']) + "元，保额为" + str(
+            data[i]['coverage']) + "元，交费间隔为" + str(data[i]['payment_interval']) + "一交，保险期限为" + str(
+            data[i]['period']) + "年，保险名称为" + data[i]['product_name'] + "，保险类型为" + data[i]['product_type'] + "，保险公司为" + data[i]['company_name'] + "。"
+    db.close()
+    question+='请分析他目前购买保险的状态，并给予一些建议。'
+    print(question)
+    print("问题:{}".format(question))
+    openai_url = "https://api.gptsapi.net/v1"  # 可以替换为任何代理的接口
+    OPENAI_API_KEY = "sk-iCt1bdbf93860981a10854b437890479fa188c02d57l6lSL"  # openai官网获取key
+    openai.api_key = OPENAI_API_KEY
+    openai.api_base = openai_url
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo", messages=[{"role": "user", "content": question}], stream=False)
+    print("完整的响应结果:{}".format(response))
+    answer = response.choices[0].message.content
+    print("答案:{}".format(answer))
+    return jsonify(answer=answer)  # 以JSON格式返回答案
 if __name__ == '__main__':
     app.run(debug=True, threaded=True)
