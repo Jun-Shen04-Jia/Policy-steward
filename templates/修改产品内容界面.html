@@ -58,6 +58,14 @@
             background-color: #555;
             /* 设置为较浅的黑色（灰色） */
         }
+
+        .centered-div {
+            width: 50%;
+            /* 或者你想要的宽度 */
+            margin: 0 auto;
+            text-align: center;
+            /* 如果你想要里面的内容也水平居中 */
+        }
     </style>
 </head>
 <body>
@@ -70,13 +78,9 @@
                 <div class="row ">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp">
                         <div class="row pro" id="old">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-                                <div class="round14"></div>
-                            </div>
-                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+                            <div class="centered-div">
                                 <h5>保险产品修改</h5>
                             </div>
-                            <div class="border_btm3"></div>
                         </div>
         
                     </div>
@@ -110,11 +114,6 @@
                                     <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
                                         value="修改" id="company_name" />
                                 </div>
-
-
-        
-
-        
                             </div>
                         </form>
                     </div>
@@ -126,27 +125,6 @@
 </div>
 <script src="../static/js/jquery-3.7.1.min.js"></script>
 <script>
-    var company_names = {{ company_names | tojson | safe }};
-        company_names = company_names.map(function (item) {
-            return {
-                'selected': false,
-                'name': item.name,
-                'id': item.id
-            };
-        });
-        $('.company_name').dropdown({
-            data: company_names,
-            readonly: false,
-            searchable: false,
-            limitCount: 2000,
-            multipleMode: '',
-            choice: function (ele) { //单选-直接跳链接
-                console.log(ele);
-            },
-            del: function () {
-                console.log('删除:', '初始化页面数据');
-            }
-        });
     function create(self){
         if($(self).hasClass("btn btn-secondary marg float-lg-right")){
             var type = $(self).attr('id');
@@ -205,15 +183,5 @@ $(self).remove();
         window.history.back();
     }
 </script>
-<script src="../static/js/jquery-3.7.1.min.js"></script>
-    <script src="../static/js/jquery.dropdown.js"></script>
-    <script src='../static/js/jquery.min.js'></script>
-    <script src='../static/js/mustache.min.js'></script>
-    <script src="../static/js/script-1.js"></script>
-
-    <script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
-    <script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
-    <script type="text/javascript" src="../static/js/left-side-menu.js"></script>
-    <script src="../static/js/apexcharts.js"></script>
 </body>
 </html>

@@ -10,7 +10,7 @@ import requests
 from datetime import  timedelta
 from flask import session
 import webbrowser
-#webbrowser.open("http://127.0.0.1:5000")
+webbrowser.open("http://127.0.0.1:5000")
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'insurancedb.db'
@@ -813,15 +813,23 @@ def update_field():
     field = request.form.get('field')
     value = request.form.get('value')
     print(field, value)
+    if field !='username' and field !='password':
+        db = get_db()
+        # 更新member表中feild字段的值
+        db.execute(f'UPDATE member SET {field} = ? WHERE ID = ?', (value, session['user_id']))
+        db.commit()
+        db.close()
+        if field == 'ID':
+            session['user_id'] = value
+        return jsonify({'message': '更新成功！'})
+    else:
+        db = get_db()
+        # 更新member表中feild字段的值
+        db.execute(f'UPDATE account SET {field} = ? WHERE ID = ?', (value, session['user_id']))
+        db.commit()
+        db.close()
+        return jsonify({'message': '更新成功！'})
 
-    db = get_db()
-    # 更新member表中feild字段的值
-    db.execute(f'UPDATE member SET {field} = ? WHERE ID = ?', (value, session['user_id']))
-    db.commit()
-    db.close()
-    if field =='ID':
-        session['user_id']=value
-    return jsonify({'message': '更新成功！'})
 @app.route('/update_field_policy', methods=['POST'])
 def update_field_policy():
     field = request.form.get('field')
@@ -844,14 +852,18 @@ def update_field_policy():
                 return jsonify({'message': '更新失败！'}), 400
     elif field == 'policy_holder_name' or field == 'insured_name':
         print(field, value)
+        if field == 'policy_holder_name':
+            role = '投保人'
+        else:
+            role = '被保人'
         with get_db() as conn:
             cursor = conn.cursor()
             cursor.execute("SELECT ID FROM member WHERE name = ?", (value,))
 
             member = cursor.fetchone()
             if member:
-                cursor.execute("UPDATE member_policy SET ID = ? WHERE policy_id = ?",
-                               (member['ID'], session['policy_id']))
+                cursor.execute("UPDATE member_policy SET ID = ? WHERE policy_id = ? AND role = ?",
+                               (member['ID'], session['policy_id'],role))
                 conn.commit()
                 return jsonify({'message': '更新成功！'})
             else:
@@ -1040,10 +1052,10 @@ def home():
 
                 product = cursor.fetchone()
                 if product:
-                    session['filename'] = policy_id + '.pdf'
+                    session['filename'] = policy_id + ".pdf"
                     cursor.execute(
                         "INSERT INTO policy (policy_id, pro_id, start, period, coverage, premium, payment_interval, duration, file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                        (policy_id, product['pro_id'], start, period, coverage, premium, payment_interval, duration, policy_id+'pdf'))
+                        (policy_id, product['pro_id'], start, period, coverage, premium, payment_interval, duration, policy_id+'.pdf'))
                     conn.commit()
 
             inuser_name = request.form.get('insured_name')

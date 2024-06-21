@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>电子保单详情页</title>
@@ -10,47 +11,57 @@
     <style>
         /*  以下几个用来调整pdf查看图标大小*/
         .container {
-            width: 900px;
+            width: 1200px;
             margin: 80px auto;
         }
+
         .box {
             width: 80px;
             height: 80px;
             float: left;
             margin-left: 10px;
         }
-    
+
         .box img {
             width: 80px;
             max-width: 80px;
         }
-    
+
         .box button {
             width: 100%;
         }
+
         /*  */
-        .margin{
-            margin-top:10px;
-            margin-bottom: 10px;
+        .margin {
+            margin-top: 30px;
+            margin-bottom: 20px;
         }
-        body{
-            margin:0;
+
+        body {
+            margin: 0;
             font-family: 'Microsoft YaHei';
             font-size: 22px;
         }
-        .long_article{
-             overflow-wrap: break-word;
+
+        .long_article {
+            overflow-wrap: break-word;
         }
-        .outline{
-            border: 2px dashed #9fcdff; /* 虚线框样式，2px宽度，黑色 */
-            padding: 20px; /* 为了使内容不贴近虚线框，添加一些内边距 */
+
+        .outline {
+            border: 2px dashed #9fcdff;
+            /* 虚线框样式，2px宽度，黑色 */
+            padding: 20px;
+            /* 为了使内容不贴近虚线框，添加一些内边距 */
         }
-        .round_corner{
+
+        .round_corner {
             border-radius: 10px;
         }
-        .rightBorder{
+
+        .rightBorder {
             padding-right: 100px;
         }
+
         .back-button {
             font-family: 'STXingkai';
             display: block;
@@ -69,150 +80,156 @@
             line-height: 2em;
             /* 使按钮内部有足够的高度 */
         }
-    
-    
+
+
         .back-button:hover {
             background-color: #555;
             /* 设置为较浅的黑色（灰色） */
         }
+        .limited-width {
+    max-width: 100%; /* 你可以根据需要调整这个值 */
+}
     </style>
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px">
-    <!--    跳转回主界面-->
-    <a class="navbar-brand" href="#">家庭保单小管家</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarColor03">
-        <form class="form-inline mr-auto ml-auto">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
+    <nav class="navbar navbar-expand-lg navbar-light"
+        style="background-color: #e3f2fd;border-bottom-left-radius: 20px;border-bottom-right-radius: 20px">
+        <!--    跳转回主界面-->
+        <a class="navbar-brand" href="#">家庭保单小管家</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03"
+            aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarColor03">
+            <form class="form-inline mr-auto ml-auto">
 
-        <div class="rightBorder">
-            <ul class="navbar-right navbar-nav nav">
+            </form>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                        用户
-                    </a>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="personal-center/{{ ID }}">个人中心</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container">
-    <div style="text-align: center;" class="margin">
-        <h1>保单详情信息</h1>
-    </div>
-    <div class="outline round_corner margin">
-        <h2 class="margin">保单基本信息：</h2>
-        <div class="row margin">
-            <div class="col-md-4">保单号：{{ item.policy_id }}</div>
-            <div class="col-md-4">保险生效时间：{{ item.start }}</div>
-            <div class="col-md-4">保险期限：{{item.period}}</div>
-        </div>
-        <div class="row margin">
-            <div class="col-md-8">保险金额：{{item.coverage}}元</div>
-            <div class="col-md-4">保险费用：{{item.premium}}元</div>
-        </div>
-        <div class="row margin">
-            <div class="col-md-4">投保人：{{item.policy_holder_name}}</div>
-            <div class="col-md-4">身份证号：{{item.policy_holder_ID}}</div>
-            <div class="col-md-4">联系电话：{{item.policy_holder_phone_number}}</div>
-        </div>
-        <div class="row margin">
-            <div class="col-md-4">被投保人：{{item.insured_name}}</div>
-            <div class="col-md-4">身份证号：{{ item.insured_ID }}</div>
-            <div class="col-md-4">联系电话：{{item.insured_phone}}</div>
-        </div>
-        {% if item.beneficiary_details %}
-            <div class="row margin">
-            <div class="col-md-12">受益人：{{ item.beneficiary_details }}</div>
+            <div class="rightBorder">
+                <ul class="navbar-right navbar-nav nav">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                            aria-expanded="false">
+                            用户
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="personal-center/{{ ID }}">个人中心</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
-        {% endif %}
-    </div>
-    <div class="outline round_corner margin">
-        <h2>保险产品信息：</h2>
-        <div class="row margin ">
-            <div class="col-md-12">产品名称：{{item.product_name}}</div>
         </div>
-        <div class="row margin ">
-            <div class="col-md-12">产品类型：{{item.product_type}}</div>
+    </nav>
+    <div class="container">
+        <div style="text-align: center;" class="margin">
+            <h1>保单详情信息</h1>
         </div>
-        {% if item.product_intro %}
-        <div class="long_article margin">产品介绍：{{ item.product_intro }}</div>
-        {% endif %}
-    </div>
-    <h2>保险缴费情况：</h2>
-    <table class="table table-bordered margin">
-        <thead>
-        <tr>
-            <th scope="col">缴费人</th>
-            <th scope="col">上缴日期</th>
-            <th scope="col">缴费银行卡号</th>
-            <th scope="col">缴费金额（元）</th>
-        </tr>
-        </thead>
-        <tbody>
+        <div class="outline round_corner margin">
+            <h2 class="margin">保单基本信息：</h2>
+            <div class="row margin d-flex flex-wrap">
+                <div class="col-md-4 text-wrap limited-width">保单号：{{ item.policy_id }}</div>
+                <div class="col-md-4 text-wrap limited-width">保险生效时间：{{ item.start }}</div>
+                <div class="col-md-4 text-wrap limited-width">保险期限：{{item.period}}</div>
+            </div>
+            <div class="row margin">
+                <div class="col-md-8 text-wrap limited-width">保险金额：{{item.coverage}}元</div>
+                <div class="col-md-4 text-wrap limited-width">保险费用：{{item.premium}}元</div>
+            </div>
+            <div class="row margin">
+                <div class="col-md-4 text-wrap limited-width">投保人：{{item.policy_holder_name}}</div>
+                <div class="col-md-4 text-wrap limited-width">身份证号：{{item.policy_holder_ID}}</div>
+                <div class="col-md-4 text-wrap limited-width">联系电话：{{item.policy_holder_phone_number}}</div>
+            </div>
+            <div class="row margin">
+                <div class="col-md-4 text-wrap limited-width">被投保人：{{item.insured_name}}</div>
+                <div class="col-md-4 text-wrap limited-width">身份证号：{{ item.insured_ID }}</div>
+                <div class="col-md-4 text-wrap limited-width">联系电话：{{item.insured_phone}}</div>
+            </div>
+            {% if item.beneficiary_details %}
+            <div class="row margin">
+                <div class="col-md-12">受益人：{{ item.beneficiary_details }}</div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="outline round_corner margin">
+            <h2>保险产品信息：</h2>
+            <div class="row margin ">
+                <div class="col-md-12">产品名称：{{item.product_name}}</div>
+            </div>
+            <div class="row margin ">
+                <div class="col-md-12">产品类型：{{item.product_type}}</div>
+            </div>
+            {% if item.product_intro %}
+            <div class="long_article margin">产品介绍：{{ item.product_intro }}</div>
+            {% endif %}
+        </div>
+        <h2 class="margin">保险缴费情况：</h2>
+        <table class="table table-bordered margin">
+            <thead>
+                <tr>
+                    <th scope="col">缴费人</th>
+                    <th scope="col">上缴日期</th>
+                    <th scope="col">缴费银行卡号</th>
+                    <th scope="col">缴费金额（元）</th>
+                </tr>
+            </thead>
+            <tbody>
 
-        <!--            添加示例-->
-                   {% for item1 in data_list1 %}
+                <!--            添加示例-->
+                {% for item1 in data_list1 %}
                 <tr>
                     <td>{{ item1.name }}</td>
                     <td>{{ item1.pay_date }}</td>
                     <td>{{ item1.bank_account }}</td>
                     <td>{{ item1.premium}}</td>
-        <!--                <tr>-->
-        <!--                    <td>{{ item.ID }}</td>-->
-        <!--                    <td>{{ item.name }}</td>-->
-        <!--                    <td>{{ item.passport }}</td>-->
-        <!--                    <td>{{ item.phone_number }}</td>-->
-        <!--                    <td>-->
-        <!--                        <a href="item.href"><button type="button" class="btn btn-light">详细信息</button></a>-->
-        <!--                        <a href="item.href"><button type="button" class="btn btn-danger">修改</button></a>-->
-                           </td>
-                       </tr>
-                 {% endfor %}
-        </tbody>
-    </table>
-    {% if data_list2 %}
-<h2>保险索赔情况：</h2>
-<table class="table table-bordered margin">
-    <thead>
-    <tr>
-        <th scope="col">索赔人</th>
-        <th scope="col">索赔日期</th>
-        <th scope="col">索赔金额（元）</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for item2 in data_list2 %}
-        <tr>
-            <td>{{ item2.name }}</td>
-            <td>{{ item2.claim_date }}</td>
-            <td>{{ item2.amount }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
-{% endif %}
-</div>
-<div class="container">
+                    <!--                <tr>-->
+                    <!--                    <td>{{ item.ID }}</td>-->
+                    <!--                    <td>{{ item.name }}</td>-->
+                    <!--                    <td>{{ item.passport }}</td>-->
+                    <!--                    <td>{{ item.phone_number }}</td>-->
+                    <!--                    <td>-->
+                    <!--                        <a href="item.href"><button type="button" class="btn btn-light">详细信息</button></a>-->
+                    <!--                        <a href="item.href"><button type="button" class="btn btn-danger">修改</button></a>-->
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if data_list2 %}
+        <h2 class="margin">保险索赔情况：</h2>
+        <table class="table table-bordered margin">
+            <thead>
+                <tr>
+                    <th scope="col">索赔人</th>
+                    <th scope="col">索赔日期</th>
+                    <th scope="col">索赔金额（元）</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item2 in data_list2 %}
+                <tr>
+                    <td>{{ item2.name }}</td>
+                    <td>{{ item2.claim_date }}</td>
+                    <td>{{ item2.amount }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    <div class="container">
         <div class="box">
             <img src="../static/img/pdf.jpg" class="ez" href="../static/pdf/{{ item.file }}" alt="">
         </div>
     </div>
-<button class="back-button" onclick="goBack()">返回</button>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+    <button class="back-button" onclick="goBack()">返回</button>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
     <script src="../static/js/jquery-1.11.0.min.js"></script>
     <script src="../static/js/EZView.js"></script>
     <script src="../static/js/draggable.js"></script>
@@ -228,4 +245,5 @@
     <script type="text/javascript" src="../static/js/left-side-menu.js"></script>
 
 </body>
+
 </html>

@@ -67,8 +67,10 @@
         }
 
         .centered-heading {
-            text-align: center; /* 文字居中 */
-            display: block;    /* 确保元素独占一行 */
+            width: 10%;
+            /* 或者你想要的宽度 */
+            margin: 0 auto;
+            text-align: center;
         }
     </style>
 </head>
@@ -142,7 +144,7 @@
                                             onclick="create(this)" value="修改" id="start" />
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                        <label>保险期限(天): </label>
+                                        <label>保险期限: </label>
                                         <label id="n">{{ item.period }}</label>
                                         <input type="button" class="btn btn-secondary marg float-lg-right"
                                             onclick="create(this)" value="修改" id="period" />
