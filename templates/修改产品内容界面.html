@@ -126,6 +126,27 @@
 </div>
 <script src="../static/js/jquery-3.7.1.min.js"></script>
 <script>
+    var company_names = {{ company_names | tojson | safe }};
+        company_names = company_names.map(function (item) {
+            return {
+                'selected': false,
+                'name': item.name,
+                'id': item.id
+            };
+        });
+        $('.company_name').dropdown({
+            data: company_names,
+            readonly: false,
+            searchable: false,
+            limitCount: 2000,
+            multipleMode: '',
+            choice: function (ele) { //单选-直接跳链接
+                console.log(ele);
+            },
+            del: function () {
+                console.log('删除:', '初始化页面数据');
+            }
+        });
     function create(self){
         if($(self).hasClass("btn btn-secondary marg float-lg-right")){
             var type = $(self).attr('id');
@@ -184,5 +205,15 @@ $(self).remove();
         window.history.back();
     }
 </script>
+<script src="../static/js/jquery-3.7.1.min.js"></script>
+    <script src="../static/js/jquery.dropdown.js"></script>
+    <script src='../static/js/jquery.min.js'></script>
+    <script src='../static/js/mustache.min.js'></script>
+    <script src="../static/js/script-1.js"></script>
+
+    <script src="../static/plugins/bootstrap-4.6.2/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../static/js/jquery.slimscroll.min.js"></script>
+    <script type="text/javascript" src="../static/js/left-side-menu.js"></script>
+    <script src="../static/js/apexcharts.js"></script>
 </body>
 </html>

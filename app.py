@@ -280,7 +280,14 @@ JOIN
     data3 = db.execute(query, ()).fetchall()
 
     db.close()
-    return render_template('客户主界面.html',data_list=data,data_list1=data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
+    total_count=0
+    total_coverage=0
+    total_premium=0
+    for item in data3:
+        total_count+=item['policy_count']
+        total_coverage+=item['total_coverage']
+        total_premium+=item['total_premium']
+    return render_template('客户主界面.html', total_count=total_count, total_premium=total_premium, total_coverage=total_coverage,data_list=data,data_list1=data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
 
 @app.route('/personal-center/<user_id>')
 def personal_center(user_id):
@@ -534,7 +541,13 @@ def search():
                                '''
 
     data3 = db.execute(query, ()).fetchall()
-
+    total_count = 0
+    total_coverage = 0
+    total_premium = 0
+    for item in data3:
+        total_count += item['policy_count']
+        total_coverage += item['total_coverage']
+        total_premium += item['total_premium']
     db.close()
     search_query = request.args.get('query', '').lower()
     db = get_db()
@@ -611,7 +624,7 @@ def search():
     filtered_data1 = filter_data(data1, search_query)
 
     # Pass the filtered data to the template
-    return render_template('客户主界面.html',data_list=filtered_data,data_list1=filtered_data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
+    return render_template('客户主界面.html',total_count=total_count, total_premium=total_premium, total_coverage=total_coverage,data_list=filtered_data,data_list1=filtered_data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
 
 @app.route('/get_names/', methods=['GET'])
 def get_names():
@@ -782,7 +795,7 @@ def product_information(pro_name):
     # Use a parameterized query to prevent SQL injection
     # Replace 'your_table' with your actual table name
     query = '''
-          select  product.pro_id,product.pro_name,product.introduction,product.type,company.company_name,
+          select  product.pro_id,product.pro_name,product.introduction AS product_intro,product.type,company.company_name,
           company.com_address,company.com_phone_num
           FROM product,company
           WHERE product.company_name=company.company_name AND product.pro_name=?
@@ -955,8 +968,28 @@ def product_change(pro_name):
     data = db.execute(query, (pro_name,)).fetchall()
 
     db.close()
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+                           SELECT
+                      company_name
+                   FROM
+                       company;
 
-    return render_template('修改产品内容界面.html', item=data[0])
+                               '''
+
+    data000 = db.execute(query).fetchall()
+
+    db.close()
+    company_names = []
+    for i in range(len(data000)):
+        company_names.append({})
+        company_names[i]['selected'] = False
+        company_names[i]['name'] = data000[i]['company_name']
+        company_names[i]['id'] = data000[i]['company_name']
+
+    return render_template('修改产品内容界面.html', item=data[0],company_names=company_names)
 @app.route('/update_field_product', methods=['POST'])
 def update_field_prodcut():
     field = request.form.get('field')

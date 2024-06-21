@@ -250,19 +250,27 @@
                     </thead>
                     <tbody id="table-statistic">
 
-                        {% for item in data_list3 %}
-                    <tr>
-                        <td>{{ item.name }}</td>
-                        <td>{{ item.policy_count }}</td>
-                        <td>{{ item.total_coverage}}</td>
-                        <td>{{ item.total_premium}}</td>
-                        <td>
-                            <a href="/ai/{{ item.ID }}"><button type="button" class="btn btn-light" onclick="AI(this)" data-id="{{ item.ID }}">AI分析</button>
-                            <a href="/search?query={{ item.name }}"><button type="button" class="btn btn-light"
-                                        onclick=AI(this)>保单列表</button></a>
-                        </td>
-                    </tr>
-                    {% endfor %}
+
+{% for item in data_list3 %}
+    <tr>
+        <td>{{ item.name }}</td>
+        <td>{{ item.policy_count }}</td>
+        <td>{{ item.total_coverage }}</td>
+        <td>{{ item.total_premium }}</td>
+        <td>
+            <a href="/ai/{{ item.ID }}"><button type="button" class="btn btn-light" onclick="AI(this)" data-id="{{ item.ID }}">AI分析</button></a>
+            <a href="/search?query={{ item.name }}"><button type="button" class="btn btn-light">保单列表</button></a>
+        </td>
+    </tr>
+{% endfor %}
+
+<!-- 添加一行显示总和 -->
+<tr>
+    <td >总和</td>
+    <td>{{ total_count }}</td>
+    <td>{{ total_coverage }}</td>
+    <td>{{ total_premium }}</td>
+</tr>
                     </tbody>
                 </table>
             </div>
@@ -812,6 +820,7 @@
                 'id': item.id
             };
         });
+
         // 使用获取到的数据初始化下拉菜单
 
         $('.beneficiary_name').dropdown({
