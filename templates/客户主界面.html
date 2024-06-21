@@ -89,6 +89,7 @@
             padding: 20px;
             /* 内边距 */
         }
+
         .custom-modal-content {
             color: black;
         }
@@ -230,13 +231,6 @@
                 </tbody>
             </table>
             <div class="container disappear" id="statistic">
-                <div class="col-md-6 ">
-                    <div id="chart-1"></div>
-                </div>
-                <div class="col-md-6 ">
-                    <div id="chart-2"></div>
-                </div>
-
                 <!-- 统计表格 -->
                 <table class="table">
                     <thead class="thead-dark">
@@ -251,28 +245,38 @@
                     <tbody id="table-statistic">
 
 
-{% for item in data_list3 %}
-    <tr>
-        <td>{{ item.name }}</td>
-        <td>{{ item.policy_count }}</td>
-        <td>{{ item.total_coverage }}</td>
-        <td>{{ item.total_premium }}</td>
-        <td>
-            <a href="/ai/{{ item.ID }}"><button type="button" class="btn btn-light" onclick="AI(this)" data-id="{{ item.ID }}">AI分析</button></a>
-            <a href="/search?query={{ item.name }}"><button type="button" class="btn btn-light">保单列表</button></a>
-        </td>
-    </tr>
-{% endfor %}
+                        {% for item in data_list3 %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.policy_count }}</td>
+                            <td>{{ item.total_coverage }}</td>
+                            <td>{{ item.total_premium }}</td>
+                            <td>
+                                <a href="/ai/{{ item.ID }}"><button type="button" class="btn btn-light"
+                                        onclick="AI(this)" data-id="{{ item.ID }}">AI分析</button></a>
+                                <a href="/search?query={{ item.name }}"><button type="button"
+                                        class="btn btn-light">保单列表</button></a>
+                            </td>
+                        </tr>
+                        {% endfor %}
 
-<!-- 添加一行显示总和 -->
-        <tr>
-            <td >总和</td>
-             <td>{{ total_count }}</td>
-                <td>{{ total_coverage }}</td>
-            <td>{{ total_premium }}</td>
-        </tr>
+                        <!-- 添加一行显示总和 -->
+                        <tr>
+                            <td>总和</td>
+                            <td>{{ total_count }}</td>
+                            <td>{{ total_coverage }}</td>
+                            <td>{{ total_premium }}</td>
+                        </tr>
                     </tbody>
                 </table>
+                <div class="row">
+                    <div class="col-md-6 ">
+                        <div id="chart-1"></div>
+                    </div>
+                    <div class="col-md-6 ">
+                        <div id="chart-2"></div>
+                    </div>
+                </div>
             </div>
 
             <table class="table disappear" id="Table_2">
@@ -547,7 +551,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-
                                     <div class="col-lg-6">
                                         <input type="date" class="form-control" id="pay_date" name="pay_date"
                                             placeholder="缴费日期" required>
@@ -556,10 +559,8 @@
                                         <input type="text" class="form-control" id="pay_name" name="pay_name"
                                             placeholder="缴费人" required>
                                     </div>
-
-
                                 </div>
-                                <div class="form-group row">
+                                <div class="form-group">
                                     <input type="text" class="form-control" id="bank_account" name="bank_account"
                                         placeholder="银行账号" required>
                                 </div>
@@ -683,7 +684,7 @@
                 $('#submit_fifth').addClass('disappear');
                 $('#submit_forth').addClass('disappear');
                 $('#statistic').addClass('disappear');
-                $('#search').children().removeClass('disappear');
+                $('#search').children().addClass('disappear');
                 if (!$('#pdf').hasClass('disappear')) {
                     $('#pdf').addClass('disappear');
                 }
@@ -757,42 +758,42 @@
     <script>
         function AI(element) {
             event.preventDefault();
-    // 使用element.getAttribute来获取data-id属性的值
-    var itemId = element.getAttribute('data-id');
+            // 使用element.getAttribute来获取data-id属性的值
+            var itemId = element.getAttribute('data-id');
 
-    // 使用fetch发送AJAX请求到Flask应用的/ai/<item.ID>路由
-    fetch('/ai/' + itemId)
-    .then(response => {
-        // 检查响应是否成功
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
+            // 使用fetch发送AJAX请求到Flask应用的/ai/<item.ID>路由
+            fetch('/ai/' + itemId)
+                .then(response => {
+                    // 检查响应是否成功
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json(); // 解析JSON数据
+                })
+                .then(data => {
+                    // 假设返回的数据中包含一个名为answer的字段
+                    var answer = data.answer;
+
+                    // 使用返回的答案来设置模态框的内容
+                    FrostifyModal.set({
+                        title: 'AI投保建议',
+                        content: '<div class="custom-modal-content">' + answer + '</div>', // 将答案插入到模态框内容中
+                        onok: () => { /* 确定按钮的回调函数 */ },
+                        oncancel: () => { /* 取消按钮的回调函数 */ },
+                        isClosable: true,
+                        isDraggable: true,
+                        reverseButtons: false,
+                        labels: {
+                            ok: '好的',
+                            cancel: '关闭'
+                        },
+                    }).show(); // 显示模态框
+                })
+                .catch(error => {
+                    // 打印错误信息到控制台
+                    console.error('Error fetching data: ', error);
+                });
         }
-        return response.json(); // 解析JSON数据
-    })
-    .then(data => {
-        // 假设返回的数据中包含一个名为answer的字段
-        var answer = data.answer;
-
-        // 使用返回的答案来设置模态框的内容
-        FrostifyModal.set({
-            title: 'AI投保建议',
-            content: '<div class="custom-modal-content">' + answer + '</div>', // 将答案插入到模态框内容中
-            onok: () => { /* 确定按钮的回调函数 */ },
-            oncancel: () => { /* 取消按钮的回调函数 */ },
-            isClosable: true,
-            isDraggable: true,
-            reverseButtons: false,
-            labels: {
-                ok: '好的',
-                cancel: '关闭'
-            },
-        }).show(); // 显示模态框
-    })
-    .catch(error => {
-        // 打印错误信息到控制台
-        console.error('Error fetching data: ', error);
-    });
-}
     </script>
     <script src="../static/js/jquery.dropdown.js"></script>
     <script>
@@ -1133,10 +1134,10 @@
             let policyHolderName = document.getElementById("policy_holder_name").value;
             let insuredName = document.getElementById("insured_name").value;
             let beneficiaryName = document.getElementById("beneficiary_name").value;
-            
+
 
             let policyIdPattern = /^\d{10}SY\d{10}$/;
-            
+
 
             if (!policyIdPattern.test(policyId)) {
                 alert("保单号格式不正确。");
@@ -1160,12 +1161,12 @@
         }
     </script>
     <script>
-        function validateForm_2(){
+        function validateForm_2() {
             let policyId = document.getElementById("policy_id_2").value;
             let claim_ID = document.getElementById("claim_id").value;
             let claimIDPattern = /^\d{10}ND\d{10}$/;
             let policyIdPattern = /^\d{10}SY\d{10}$/;
-            
+
             if (!claimIDPattern.test(claim_ID)) {
                 alert("索赔号格式不正确。");
                 return false;
@@ -1177,12 +1178,12 @@
         }
     </script>
     <script>
-        function validateForm_2(){
+        function validateForm_2() {
             let policyId = document.getElementById("policy_id_2").value;
             let claim_ID = document.getElementById("claim_id").value;
             let claimIDPattern = /^\d{10}ND\d{10}$/;
             let policyIdPattern = /^\d{10}SY\d{10}$/;
-            
+
             if (!claimIDPattern.test(claim_ID)) {
                 alert("索赔号格式不正确。");
                 return false;
@@ -1194,7 +1195,7 @@
         }
     </script>
     <script>
-        function validateForm_4(){
+        function validateForm_4() {
             let policyId = document.getElementById("policy_id_3").value;
             let bank_account = document.getElementById("bank_account").value;
             let policyIdPattern = /^\d{10}SY\d{10}$/;
@@ -1203,7 +1204,7 @@
                 alert("保单号格式不正确。");
                 return false;
             }
-            if (!BankPattern.test(bank_account)){
+            if (!BankPattern.test(bank_account)) {
                 alert("银行账号格式不正确。");
                 return false;
             }

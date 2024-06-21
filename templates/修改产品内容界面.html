@@ -58,6 +58,14 @@
             background-color: #555;
             /* 设置为较浅的黑色（灰色） */
         }
+
+        .centered-div {
+            width: 50%;
+            /* 或者你想要的宽度 */
+            margin: 0 auto;
+            text-align: center;
+            /* 如果你想要里面的内容也水平居中 */
+        }
     </style>
 </head>
 <body>
@@ -70,13 +78,9 @@
                 <div class="row ">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 pp">
                         <div class="row pro" id="old">
-                            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-                                <div class="round14"></div>
-                            </div>
-                            <div class="col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+                            <div class="centered-div">
                                 <h5>保险产品修改</h5>
                             </div>
-                            <div class="border_btm3"></div>
                         </div>
         
                     </div>
@@ -110,11 +114,6 @@
                                     <input type="button" class="btn btn-secondary marg float-lg-right" onclick="create(this)"
                                         value="修改" id="company_name" />
                                 </div>
-
-
-        
-
-        
                             </div>
                         </form>
                     </div>
