@@ -364,10 +364,10 @@
                         <!--start contact form-->
                         <div class="contact-box text-center">
                             <h1 style="color: black;">保险产品信息填写</h1>
-                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm_1()">
                                 <div class="form-group row">
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                        <input type="text" class="form-control" id="policy_id_1" name="policy_id"
                                             placeholder="保单号" required>
                                     </div>
                                     <div class="col-lg-6">
@@ -454,14 +454,14 @@
                         <!--start contact form-->
                         <div class="contact-box text-center">
                             <h1 style="color: black;">索赔信息填写</h1>
-                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm_2()">
                                 <div class="form-group row">
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="claim_id" name="claim_id"
                                             placeholder="索赔id号" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                        <input type="text" class="form-control" id="policy_id_2" name="policy_id"
                                             placeholder="保单号" required>
                                     </div>
                                 </div>
@@ -501,7 +501,7 @@
                         <!--start contact form-->
                         <div class="contact-box text-center">
                             <h1 style="color: black;">保险产品填写</h1>
-                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm_3()">
                                 <div class="form-group row">
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="pro_id" name="pro_id"
@@ -555,14 +555,14 @@
                         <!--start contact form-->
                         <div class="contact-box text-center">
                             <h1 style="color: black;">缴费信息填写</h1>
-                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm_4()">
                                 <div class="form-group row">
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="pay_id" name="pay_id"
                                             placeholder="缴费id号" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="policy_id" name="policy_id"
+                                        <input type="text" class="form-control" id="policy_id_3" name="policy_id"
                                             placeholder="保单号" required>
                                     </div>
                                 </div>
@@ -599,22 +599,17 @@
                         <!--start contact form-->
                         <div class="contact-box text-center">
                             <h1 style="color: black;">保险公司信息填写</h1>
-                            <form id="ajax-contact" method="post" onsubmit="return validateForm()">
+                            <form id="ajax-contact" method="post" onsubmit="return validateForm_5()">
                                 <div class="form-group row">
                                     <div class="col-lg-6">
                                         <input type="text" class="form-control" id="company_name" name="company_name"
                                             placeholder="公司名称" required>
                                     </div>
                                     <div class="col-lg-6">
-                                        <input type="text" class="form-control" id="com_phone_num" name="com_phone_num"
+                                        <input type="tel" class="form-control" id="com_phone_num" name="com_phone_num"
                                             placeholder="公司电话" required>
                                     </div>
                                 </div>
-
-
-
-
-
                                 <div class="form-group">
                                     <input type="text" class="form-control" id="com_address" name="com_address"
                                         placeholder="公司地址" required>
@@ -1120,6 +1115,96 @@
             var chart2 = new ApexCharts(document.querySelector("#chart-2"), options2);
             chart2.render();
         });
+    </script>
+
+    <script>
+        function validateForm_1() {
+            let policyId = document.getElementById("policy_id_1").value;
+            let proName = document.getElementById("pro_name").value;
+            let startDate = document.getElementById("start").value;
+            let period = document.getElementById("period").value;
+            let paymentInterval = document.getElementById("payment_interval").value;
+            let duration = document.getElementById("duration").value;
+            let coverage = document.getElementById("coverage").value;
+            let premium = document.getElementById("premium").value;
+            let policyHolderName = document.getElementById("policy_holder_name").value;
+            let insuredName = document.getElementById("insured_name").value;
+            let beneficiaryName = document.getElementById("beneficiary_name").value;
+            
+
+            let policyIdPattern = /^\d{10}SY\d{10}$/;
+            
+
+            if (!policyIdPattern.test(policyId)) {
+                alert("保单号格式不正确。");
+                return false;
+            }
+
+            // Ensure numbers are positive
+            if (isNaN(period) || isNaN(coverage) || isNaN(premium)) {
+                alert("保险期限、保险金额和保险费用必须是有效的数字。");
+                return false;
+            }
+
+            if (period <= 0 || coverage <= 0 || premium <= 0) {
+                alert("保险期限、保险金额和保险费用必须是正数。");
+                return false;
+            }
+
+            // Additional custom validations can be added here
+
+            return true;
+        }
+    </script>
+    <script>
+        function validateForm_2(){
+            let policyId = document.getElementById("policy_id_2").value;
+            let claim_ID = document.getElementById("claim_id").value;
+            let claimIDPattern = /^\d{10}ND\d{10}$/;
+            let policyIdPattern = /^\d{10}SY\d{10}$/;
+            
+            if (!claimIDPattern.test(claim_ID)) {
+                alert("索赔号格式不正确。");
+                return false;
+            }
+            if (!policyIdPattern.test(policyId)) {
+                alert("保单号格式不正确。");
+                return false;
+            }
+        }
+    </script>
+    <script>
+        function validateForm_2(){
+            let policyId = document.getElementById("policy_id_2").value;
+            let claim_ID = document.getElementById("claim_id").value;
+            let claimIDPattern = /^\d{10}ND\d{10}$/;
+            let policyIdPattern = /^\d{10}SY\d{10}$/;
+            
+            if (!claimIDPattern.test(claim_ID)) {
+                alert("索赔号格式不正确。");
+                return false;
+            }
+            if (!policyIdPattern.test(policyId)) {
+                alert("保单号格式不正确。");
+                return false;
+            }
+        }
+    </script>
+    <script>
+        function validateForm_4(){
+            let policyId = document.getElementById("policy_id_3").value;
+            let bank_account = document.getElementById("bank_account").value;
+            let policyIdPattern = /^\d{10}SY\d{10}$/;
+            let BankPattern = /^.{1,20}$/;
+            if (!policyIdPattern.test(policyId)) {
+                alert("保单号格式不正确。");
+                return false;
+            }
+            if (!BankPattern.test(bank_account)){
+                alert("银行账号格式不正确。");
+                return false;
+            }
+        }
     </script>
     <script src="../static/js/jquery-3.7.1.min.js"></script>
     <script src="../static/js/jquery.dropdown.js"></script>
