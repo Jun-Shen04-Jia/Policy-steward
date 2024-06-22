@@ -225,7 +225,7 @@
                     type: "button",
                     class: "btn btn-secondary marg float-lg-right",
                     value: "确认",
-                    onclick: "change_back(this, '" + type+id +"')"
+                    onclick: "change_back(this, '" + type +"','" + id +"')"
                 })
                 $(self).after(submit);
             }
@@ -245,22 +245,20 @@
                 }
             });
         }
-        function change_back(self, field,id) {
-            console.log(id);
-
+        function change_back(self, field,data_id) {
+            var type = $(self).siblings('input[value="修改"]').attr('type');
             var change = $("<input>", {
                 type: "button",
                 class: "btn btn-secondary marg float-lg-right",
                 onclick: "create(this, '" + field + "')",
                 value: "修改",
-                id: type
+                id: type,
+                'data-id':data_id
             });
-
-
             $(self).siblings("label#n").removeClass('hide');
             if ($(self).siblings('input[value="修改"]').val().trim() !== "") {
                 $(self).siblings("label#n").text($(self).siblings('input[value="修改"]').val());
-                sendData(field, $(self).siblings('input[value="修改"]').val(),id);
+                sendData(field, $(self).siblings('input[value="修改"]').val());
             }
             $(self).siblings("input").remove();
             $(self).parent().append(change);
