@@ -129,14 +129,12 @@
                                         <input type="button" class="btn btn-secondary marg float-lg-right"
                                             onclick="create(this)" value="修改" id="insured_name" />
                                     </div>
-                                    {% if item.name3 is not none %}
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
                                         <label>受益人姓名: </label>
                                         <label id="n">{{item.name3}}</label>
                                         <input type="button" class="btn btn-secondary marg float-lg-right"
                                             onclick="create(this)" value="修改" id="beneficiary_name" />
                                     </div>
-                                    {% endif %}
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
                                         <label>保险生效日期: </label>
                                         <label id="n">{{item.start}}</label>
@@ -144,7 +142,7 @@
                                             onclick="create(this)" value="修改" id="start" />
                                     </div>
                                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
-                                        <label>保险期限(天): </label>
+                                        <label>保险期限: </label>
                                         <label id="n">{{ item.period }}</label>
                                         <input type="button" class="btn btn-secondary marg float-lg-right"
                                             onclick="create(this)" value="修改" id="period" />
@@ -174,7 +172,29 @@
                                             onclick="create(this)" value="修改" id="duration" />
                                     </div>
 
+                                     {% for item1 in data_list1 %}
+                                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>缴费人: </label>
+                                        <label id="n">{{ item1.name }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" data-id="{{ item1.pay_id }}"value="修改" id="pay_name" />
+                                    </div>
+                                          <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                        <label>缴费日: </label>
+                                        <label id="n">{{ item1.pay_date }}</label>
+                                        <input type="button" class="btn btn-secondary marg float-lg-right"
+                                            onclick="create(this)" data-id="{{ item1.pay_id }}" value="修改" id="pay_date" />
+                                    </div>
+                                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 border_btm2" id="port">
+                                            <label>银行账号: </label>
+                                            <label id="n">{{ item1.bank_account }}</label>
+                                            <input type="button" class="btn btn-secondary marg float-lg-right"
+                                                onclick="create(this)"data-id="{{ item1.pay_id }}"
+                                                value="修改" id="bank_account" />
+                                        </div>
 
+
+                {% endfor %}
 
                                 </div>
                             </form>
@@ -190,7 +210,11 @@
         function create(self) {
             if ($(self).hasClass("btn btn-secondary marg float-lg-right")) {
                 var type = $(self).attr('id');
+                console.log(type);
+                var id = $(self).attr('data-id');
+                console.log(id);
                 $(self).prop("type", type);
+                $(self).prop("id", id);
                 $(self).prop("placeholder", "请输入内容");
                 $(self).prop("value", "");
                 $(self).removeClass();
@@ -201,17 +225,17 @@
                     type: "button",
                     class: "btn btn-secondary marg float-lg-right",
                     value: "确认",
-                    onclick: "change_back(this, '" + type + "')"
+                    onclick: "change_back(this, '" + type+id +"')"
                 })
                 $(self).after(submit);
             }
         }
-
-        function sendData(field, value) {
+        function sendData(field, value,id) {
+            console.log(id);
             $.ajax({
                 type: 'POST',
                 url: '/update_field_policy',
-                data: { field: field, value: value },
+                data: { field: field, value: value,id:id},
                 success: function (response) {
                     alert('更新成功！');
                 },
@@ -221,8 +245,9 @@
                 }
             });
         }
-        function change_back(self, field) {
-            var type = $(self).siblings('input[value="修改"]').attr('type');
+        function change_back(self, field,id) {
+            console.log(id);
+
             var change = $("<input>", {
                 type: "button",
                 class: "btn btn-secondary marg float-lg-right",
@@ -230,10 +255,12 @@
                 value: "修改",
                 id: type
             });
+
+
             $(self).siblings("label#n").removeClass('hide');
             if ($(self).siblings('input[value="修改"]').val().trim() !== "") {
                 $(self).siblings("label#n").text($(self).siblings('input[value="修改"]').val());
-                sendData(field, $(self).siblings('input[value="修改"]').val());
+                sendData(field, $(self).siblings('input[value="修改"]').val(),id);
             }
             $(self).siblings("input").remove();
             $(self).parent().append(change);
@@ -246,5 +273,4 @@
         }
     </script>
 </body>
-
 </html>
