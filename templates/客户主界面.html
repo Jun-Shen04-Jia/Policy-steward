@@ -322,7 +322,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for item in data_list %}
+                    {% for item in data_list8 %}
                     <tr>
                         <td>{{ item.product_name }}</td>
                         <td>{{ item.product_type }}</td>
@@ -455,13 +455,15 @@
                                             placeholder="赔付日期" required>
                                     </div>
                                     <div class="col-lg-6">
-
                                         <div class="select_box">
-                                            <div class="select_item claim_name">
-                                                <select style="display: none;" id="claim_name" placeholder="索赔人姓名"
-                                                    name="claim_name" code="" name="单选窗口"> </select>
-                                            </div>
+                                        <div class="select_item beneficiary_name">
+                                            <select style="display: none;" id="claim_name" multiple
+                                                placeholder="索赔人姓名" name="claim_name" code=""></select>
                                         </div>
+                                    </div>
+
+
+
                                     </div>
                                 </div>
 
@@ -849,10 +851,11 @@
             searchable: false,
             limitCount: 2000,
             multipleMode: '',
-            choice: function (ele) { //单选-直接跳链接
+            choice: function (ele) {
                 console.log(ele);
             },
             del: function () {
+                // 删除选项时，你可能需要从 selectedOptions 数组中移除相应的元素
                 console.log('删除:', '初始化页面数据');
             }
         });

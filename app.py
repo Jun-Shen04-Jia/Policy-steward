@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request,jsonify
 import sqlite3
+from flask import redirect, url_for, flash
 import datetime
 import json
 import os
@@ -75,8 +76,20 @@ LEFT JOIN
         '''
 
     data = db.execute(query).fetchall()
-    print(type(data[0]))
-    print(data[0])
+
+    db.close()
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+        select product.pro_id,product.pro_name AS product_name,product.introduction AS product_intro,product.type AS product_type,company_name
+    FROM
+        product
+
+            '''
+
+    data8 = db.execute(query).fetchall()
+
     db.close()
     # 渲染登录页面
     db = get_db()
@@ -287,7 +300,7 @@ JOIN
         total_count+=item['policy_count']
         total_coverage+=item['total_coverage']
         total_premium+=item['total_premium']
-    return render_template('客户主界面.html', total_count=total_count, total_premium=total_premium, total_coverage=total_coverage,data_list=data,data_list1=data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
+    return render_template('客户主界面.html', total_count=total_count, data_list8=data8, total_premium=total_premium, total_coverage=total_coverage,data_list=data,data_list1=data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
 
 @app.route('/personal-center/<user_id>')
 def personal_center(user_id):
@@ -315,6 +328,19 @@ def personal_center0(user_id):
 @app.route('/search', methods=['GET'])
 def search():
     data = None
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+            select product.pro_id,product.pro_name AS product_name,product.introduction AS product_intro,product.type AS product_type,company_name
+        FROM
+            product
+
+                '''
+
+    data8 = db.execute(query).fetchall()
+
+    db.close()
     db = get_db()
     # Use a parameterized query to prevent SQL injection
     # Replace 'your_table' with your actual table name
@@ -624,7 +650,7 @@ def search():
     filtered_data1 = filter_data(data1, search_query)
 
     # Pass the filtered data to the template
-    return render_template('客户主界面.html',total_count=total_count, total_premium=total_premium, total_coverage=total_coverage,data_list=filtered_data,data_list1=filtered_data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
+    return render_template('客户主界面.html',total_count=total_count, data_list8=data8,total_premium=total_premium, total_coverage=total_coverage,data_list=filtered_data,data_list1=filtered_data1,ID=session['user_id'],datalist=data2,data_list3=data3,names=names,pro_names=pro_names,company_names=company_names)
 
 @app.route('/get_names/', methods=['GET'])
 def get_names():
@@ -686,7 +712,7 @@ def get_data():
     db = get_db()
     query = '''
         SELECT * FROM all_payments
-        WHERE days_until_due < 31
+        WHERE days_until_due < 30
         '''
     # 使用 cursor 执行查询并获取结果
     cursor = db.cursor()
@@ -724,10 +750,41 @@ def policy_information(policy_id):
           SELECT 
     po.policy_id,po.start,po.period,po.coverage,po.premium,ph.name AS policy_holder_name,po.file,
     ph.phone_number AS policy_holder_phone_number,ph.ID AS policy_holder_ID,mem.name AS insured_name,mem.ID AS insured_ID,
-    mem.phone_number AS insured_phone,
-    group_concat(DISTINCT bn.name || ' (身份证号: ' || bn.ID|| ', 联系电话: ' || bn.phone_number  || ')') AS beneficiary_details,
+    mem.phone_number AS insured_phone,ph.birthday AS policy_holder_birth,mem.birthday AS insured_birth,
+    group_concat(DISTINCT bn.name || ' (身份证号: ' || bn.ID|| ', 联系电话: ' || bn.phone_number  || ',关系:'|| CASE
+     WHEN bn.identity = '外婆' AND mem.identity = '外公' THEN '夫妻'
+    WHEN bn.identity = '外公' AND mem.identity = '外婆' THEN '夫妻'
+    WHEN bn.identity = '男主人' AND mem.identity = '女主人' THEN '夫妻'
+    WHEN bn.identity = '女主人' AND mem.identity = '男主人' THEN '夫妻'
+     WHEN bn.identity = '爷爷' AND mem.identity = '奶奶' THEN '夫妻'
+    WHEN bn.identity = '奶奶' AND mem.identity = '爷爷' THEN '夫妻'
+    WHEN bn.identity = '男主人' AND mem.identity = '儿子' THEN '父子'
+    WHEN bn.identity = '男主人' AND mem.identity = '女儿' THEN '父女'
+    WHEN bn.identity = '女主人' AND mem.identity = '儿子' THEN '母子'
+    WHEN bn.identity = '女主人' AND mem.identity = '女儿' THEN '母女'
+    WHEN bn.identity = '儿子' AND mem.identity = '男主人' THEN '父子'
+    WHEN bn.identity = '女儿' AND mem.identity = '男主人' THEN '父女'
+    WHEN bn.identity = '儿子' AND mem.identity = '女主人' THEN '母子'
+    WHEN bn.identity = '女儿' AND mem.identity = '女主人' THEN '母女'
+    WHEN bn.identity = '外婆' AND mem.identity = '女主人' THEN '母女'
+    WHEN bn.identity = '外公' AND mem.identity = '女主人' THEN '父女'
+    WHEN bn.identity = '爷爷' AND mem.identity = '男主人' THEN '父子'
+    WHEN bn.identity = '奶奶' AND mem.identity = '男主人' THEN '母子'
+    WHEN bn.identity = '外公' AND mem.identity = '男主人' THEN '父女'
+    WHEN bn.identity = '外婆' AND mem.identity = '男主人' THEN '母女'
+    WHEN bn.identity = '爷爷' AND mem.identity = '儿子' THEN '祖孙'
+    WHEN bn.identity = '奶奶' AND mem.identity = '儿子' THEN '祖孙'
+    WHEN bn.identity = '外公' AND mem.identity = '儿子' THEN '祖孙'
+    WHEN bn.identity = '外婆' AND mem.identity = '儿子' THEN '祖孙'
+    WHEN bn.identity = '爷爷' AND mem.identity = '女儿' THEN '祖孙'
+    WHEN bn.identity = '奶奶' AND mem.identity = '女儿' THEN '祖孙'
+    WHEN bn.identity = '外公' AND mem.identity = '女儿' THEN '祖孙'
+    WHEN bn.identity = '外婆' AND mem.identity = '女儿' THEN '祖孙'
+    ELSE '其他关系'
+END||')') AS beneficiary_details,
     po.payment_interval,po.duration,po.file AS policy_file,pr.pro_name AS product_name,
     pr.type AS product_type,pr.introduction AS product_intro,c.company_name
+    
 FROM
     policy po
 JOIN
@@ -755,13 +812,13 @@ GROUP BY
             '''
 
     data = db.execute(query, (policy_id,)).fetchall()
-
+    print(data[0]['policy_holder_name'])
     db.close()
     db = get_db()
     # Use a parameterized query to prevent SQL injection
     # Replace 'your_table' with your actual table name
     query = '''
-    SELECT mem.name,pay.pay_date,pay.bank_account,po.premium
+    SELECT mem.name,pay.pay_date,pay.bank_account,po.premium,pay.pay_id
     FROM payment as pay,member as mem,policy as po 
     WHERE pay.ID=mem.ID AND pay.policy_id=po.policy_id AND po.policy_id=?
         
@@ -774,7 +831,7 @@ GROUP BY
     # Use a parameterized query to prevent SQL injection
     # Replace 'your_table' with your actual table name
     query = '''
-        SELECT mem.name,claim.claim_date,claim.amount
+        SELECT mem.name,claim.claim_date,claim.amount,claim.claim_id
         FROM claim ,member as mem ,member_claim as mc
         WHERE mc.ID=mem.ID AND claim.claim_id=mc.claim_id AND claim.policy_id=?
 
@@ -787,7 +844,6 @@ GROUP BY
 
     # 渲染登录页面
     return render_template('电子保单详情页.html',item=data[0],data_list1=data1,data_list2=data2,ID=session['user_id'])
-
 
 @app.route('/information1/<pro_name>')
 def product_information(pro_name):
@@ -834,7 +890,8 @@ def update_field():
 def update_field_policy():
     field = request.form.get('field')
     value = request.form.get('value')
-
+    id=request.form.get('id')
+    print(id,field, value)
     if field =='pro_name':
         print(field, value)
         with get_db() as conn:
@@ -888,6 +945,56 @@ def update_field_policy():
                                    (member['ID'],session['policy_id'], '受益人'))
                     conn.commit()
             return jsonify({'message': '更新成功！'})
+    elif field=='pay_name':
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT ID FROM member WHERE name = ?", (value,))
+
+            member = cursor.fetchone()
+            if member:
+                cursor.execute("UPDATE payment SET ID = ? WHERE policy_id = ? AND pay_id = ?",
+                               (member['ID'], session['policy_id'],id))
+                conn.commit()
+                return jsonify({'message': '更新成功！'})
+            else:
+                return jsonify({'message': '更新失败！'}), 400
+    elif field=='pay_date' or field=='bank_account':
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE payment SET {0} = ? WHERE policy_id = ? AND pay_id=?".format(field),
+                           (value, session['policy_id'],id))
+            conn.commit()
+            return jsonify({'message': '更新成功！'})
+    elif field=='claim_name':
+
+        names = value.replace('，', ',').replace('；', ';').replace('、', ',').replace('；', ',').replace(';', ',').split(
+            ',')
+
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM member_claim WHERE claim_id = ? ",
+                           (id,))
+            print(names)
+            for name in names:
+                print(name.strip())
+                if name.strip() != '':
+                    print(name.strip())
+                    cursor.execute("SELECT ID FROM member WHERE name = ?", (name.strip(),))
+
+                member = cursor.fetchone()
+                if member:
+                    print(member['ID'], session['policy_id'])
+                    cursor.execute("INSERT INTO member_claim (ID,claim_id) VALUES (?, ?)",
+                                   (member['ID'], id))
+                    conn.commit()
+            return jsonify({'message': '更新成功！'})
+    elif field == 'claim_date' or field == 'amount':
+        with get_db() as conn:
+            cursor = conn.cursor()
+            cursor.execute("UPDATE claim SET {0} = ? WHERE policy_id = ? AND claim_id=?".format(field),
+                           (value, session['policy_id'], id))
+            conn.commit()
+            return jsonify({'message': '更新成功！'})
     else:
         db = get_db()
         # 更新member表中feild字段的值
@@ -895,6 +1002,21 @@ def update_field_policy():
         db.commit()
         db.close()
         if field =='policy_id':
+            db = get_db()
+            # 更新member表中feild字段的值
+            db.execute(f'UPDATE member_policy SET {field} = ? WHERE policy_id = ?', (value, session['policy_id']))
+            db.commit()
+            db.close()
+            db = get_db()
+            # 更新member表中feild字段的值
+            db.execute(f'UPDATE claim SET {field} = ? WHERE policy_id = ?', (value, session['policy_id']))
+            db.commit()
+            db.close()
+            db = get_db()
+            # 更新member表中feild字段的值
+            db.execute(f'UPDATE payment SET {field} = ? WHERE policy_id = ?', (value, session['policy_id']))
+            db.commit()
+            db.close()
             session['policy_id']=value
         return jsonify({'message': '更新成功！'})
 @app.route('/change/<policy_id>')
@@ -963,8 +1085,33 @@ GROUP BY
     data = db.execute(query, (policy_id,)).fetchall()
 
     db.close()
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+        SELECT mem.name,pay.pay_date,pay.bank_account,po.premium,pay.pay_id
+        FROM payment as pay,member as mem,policy as po 
+        WHERE pay.ID=mem.ID AND pay.policy_id=po.policy_id AND po.policy_id=?
 
-    return render_template('修改保单内容界面.html', item=data[0])
+                    '''
+
+    data1 = db.execute(query, (policy_id,)).fetchall()
+
+    db.close()
+    db = get_db()
+    # Use a parameterized query to prevent SQL injection
+    # Replace 'your_table' with your actual table name
+    query = '''
+            SELECT mem.name,claim.claim_date,claim.amount,claim.claim_id
+            FROM claim ,member as mem ,member_claim as mc
+            WHERE mc.ID=mem.ID AND claim.claim_id=mc.claim_id AND claim.policy_id=?
+
+                        '''
+
+    data2 = db.execute(query, (policy_id,)).fetchall()
+
+    db.close()
+    return render_template('修改保单内容界面.html', item=data[0],data_list2=data2,data_list1=data1)
 @app.route('/change1/<pro_name>')
 def product_change(pro_name):
     session['pro_name']=pro_name
@@ -1032,7 +1179,7 @@ def home():
         start=request.form.get('start')
         pro_name = request.form.get('pro_name')
         claim_id = request.form.get('claim_id')
-        claim_name=request.form.get('claim_name')
+        claim_name=request.form.getlist('claim_name')
         amount=request.form.get('amount')
         claim_date=request.form.get('claim_date')
         pro_id=request.form.get('pro_id')
@@ -1080,7 +1227,7 @@ def home():
                 if member:
                     print(len(member))
                     cursor.execute("INSERT INTO member_policy (ID,policy_id,role) VALUES (?, ?, ?)",
-                                   (member['ID'], policy_id, '投报人'))
+                                   (member['ID'], policy_id, '投保人'))
 
             with get_db() as conn:
                 cursor = conn.cursor()
@@ -1095,13 +1242,16 @@ def home():
         elif claim_id:
             with get_db() as conn:
                 cursor = conn.cursor()
-                cursor.execute("SELECT ID FROM member WHERE name = ?", (claim_name,))
+                for name in claim_name:
+                    if name.strip() != '':
+                        cursor.execute("SELECT ID FROM member WHERE name = ?", (name.strip(),))
 
-                member = cursor.fetchone()
 
-                if member:
-                    cursor.execute("INSERT INTO member_claim (ID,claim_id) VALUES (?, ?)",
-                                   (member['ID'], claim_id))
+                    member = cursor.fetchone()
+
+                    if member:
+                        cursor.execute("INSERT INTO member_claim (ID,claim_id) VALUES (?, ?)",
+                                    (member['ID'], claim_id))
                 cursor.execute("INSERT INTO claim (claim_id,policy_id,claim_date,amount) VALUES (?, ?, ?, ?)",
                                (claim_id, policy_id, claim_date, amount))
                 conn.commit()
@@ -1140,17 +1290,37 @@ def deletepolicy(policy_id):
     cursor.execute(query, (policy_id,))  # 注意这里的参数是一个元组
     db.commit()  # 提交事务，确保更改生效
     db.close()
+    db = get_db()  # 假设这个函数返回一个数据库连接对象
+    # 使用参数化查询来防止SQL注入
+    query = 'DELETE FROM member_policy WHERE policy_id = ?;'
+    # 使用数据库连接对象执行查询
+    cursor = db.cursor()
+    cursor.execute(query, (policy_id,))  # 注意这里的参数是一个元组
+    db.commit()  # 提交事务，确保更改生效
+    db.close()
+    db = get_db()  # 假设这个函数返回一个数据库连接对象
+    # 使用参数化查询来防止SQL注入
+    query = 'DELETE FROM claim WHERE policy_id = ?;'
+    # 使用数据库连接对象执行查询
+    cursor = db.cursor()
+    cursor.execute(query, (policy_id,))  # 注意这里的参数是一个元组
+    db.commit()  # 提交事务，确保更改生效
+    db.close()
+    db = get_db()  # 假设这个函数返回一个数据库连接对象
+    # 使用参数化查询来防止SQL注入
+    query = 'DELETE FROM payment WHERE policy_id = ?;'
+    # 使用数据库连接对象执行查询
+    cursor = db.cursor()
+    cursor.execute(query, (policy_id,))  # 注意这里的参数是一个元组
+    db.commit()  # 提交事务，确保更改生效
+    db.close()
     return redirect(url_for('homepage'))
-
-
-from flask import redirect, url_for, flash
-
 
 @app.route('/deleteproduct/<pro_id>')
 def deleteproduct(pro_id):
     db = get_db()  # 假设这个函数返回一个数据库连接对象
     # 检查product表中是否存在指定的pro_id
-    check_query = 'SELECT 1 FROM product WHERE pro_id = ? LIMIT 1;'
+    check_query = 'SELECT 1 FROM policy WHERE pro_id = ? LIMIT 1;'
     cursor = db.cursor()
     cursor.execute(check_query, (pro_id,))
     exists = cursor.fetchone()
@@ -1198,14 +1368,14 @@ def ai(ID):
     # Use a parameterized query to prevent SQL injection
     # Replace 'your_table' with your actual table name
     query = '''
-          select  member.name,po.premium,po.coverage, po.period,po.policy_id,po.start,po.payment_interval, po.duration,po.file AS policy_file,pr.pro_id,pr.type AS product_type,pr.pro_name AS product_name,co.company_name
+          select  member.birthday,member.address,member.name,po.premium,po.coverage, po.period,po.policy_id,po.start,po.payment_interval, po.duration,po.file AS policy_file,pr.pro_id,pr.type AS product_type,pr.pro_name AS product_name,co.company_name
               FROM product as pr,company as co,policy as po,member_policy as mp,member
               WHERE mp.role='被保人' AND po.policy_id=mp.policy_id AND pr.pro_id=po.pro_id AND pr.company_name=co.company_name AND mp.ID=? AND member.ID=mp.ID
                 '''
 
     data = db.execute(query, (ID,)).fetchall()
     print(ID,data[0]['period'])
-    question= data[0]['name']+"作为被投保人已经有"+str(len(data))+'份保险。'
+    question= data[0]['name']+data[0]['birthday']+'出生，来自'+data[0]['address']+"。作为被投保人已经有"+str(len(data))+'份保险。'
     for i in range(len(data)):
         question += "第" + str(i + 1) + "份保险的保费为" + str(data[i]['premium']) + "元，保额为" + str(
             data[i]['coverage']) + "元，交费间隔为" + str(data[i]['payment_interval']) + "一交，保险期限为" + str(

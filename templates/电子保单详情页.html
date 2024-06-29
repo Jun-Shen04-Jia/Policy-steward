@@ -139,11 +139,13 @@
             </div>
             <div class="row margin">
                 <div class="col-md-4 text-wrap limited-width">投保人：{{item.policy_holder_name}}</div>
+                <div class="col-md-4 text-wrap limited-width">生日：{{item.policy_holder_birth}}</div>
                 <div class="col-md-4 text-wrap limited-width">身份证号：{{item.policy_holder_ID}}</div>
                 <div class="col-md-4 text-wrap limited-width">联系电话：{{item.policy_holder_phone_number}}</div>
             </div>
             <div class="row margin">
                 <div class="col-md-4 text-wrap limited-width">被投保人：{{item.insured_name}}</div>
+                <div class="col-md-4 text-wrap limited-width">生日：{{ item.insured_birth }}</div>
                 <div class="col-md-4 text-wrap limited-width">身份证号：{{ item.insured_ID }}</div>
                 <div class="col-md-4 text-wrap limited-width">联系电话：{{item.insured_phone}}</div>
             </div>
@@ -184,15 +186,7 @@
                     <td>{{ item1.pay_date }}</td>
                     <td>{{ item1.bank_account }}</td>
                     <td>{{ item1.premium}}</td>
-                    <!--                <tr>-->
-                    <!--                    <td>{{ item.ID }}</td>-->
-                    <!--                    <td>{{ item.name }}</td>-->
-                    <!--                    <td>{{ item.passport }}</td>-->
-                    <!--                    <td>{{ item.phone_number }}</td>-->
-                    <!--                    <td>-->
-                    <!--                        <a href="item.href"><button type="button" class="btn btn-light">详细信息</button></a>-->
-                    <!--                        <a href="item.href"><button type="button" class="btn btn-danger">修改</button></a>-->
-                    </td>
+                                        </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -202,6 +196,7 @@
         <table class="table table-bordered margin">
             <thead>
                 <tr>
+                    <th scope="col">索赔号</th>
                     <th scope="col">索赔人</th>
                     <th scope="col">索赔日期</th>
                     <th scope="col">索赔金额（元）</th>
@@ -210,6 +205,7 @@
             <tbody>
                 {% for item2 in data_list2 %}
                 <tr>
+                    <td>{{ item2.claim_id }}</td>
                     <td>{{ item2.name }}</td>
                     <td>{{ item2.claim_date }}</td>
                     <td>{{ item2.amount }}</td>
