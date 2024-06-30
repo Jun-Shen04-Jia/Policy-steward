@@ -11,7 +11,7 @@ import requests
 from datetime import  timedelta
 from flask import session
 import webbrowser
-webbrowser.open("http://127.0.0.1:5000")
+# webbrowser.open("http://127.0.0.1:5000")
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'insurancedb.db'
@@ -1395,4 +1395,4 @@ def ai(ID):
     print("答案:{}".format(answer))
     return jsonify(answer=answer)  # 以JSON格式返回答案
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=443)
