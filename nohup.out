@@ -843,3 +843,41 @@ zhangsf passwrd1
 [2024-06-30 10:19:55 +0800] [17948] [INFO] Booting worker with pid: 17948
 [2024-06-30 10:19:55 +0800] [17949] [INFO] Booting worker with pid: 17949
 [2024-06-30 10:19:55 +0800] [17950] [INFO] Booting worker with pid: 17950
+[2024-06-30 10:20:47 +0800] [17943] [CRITICAL] WORKER TIMEOUT (pid:17950)
+[2024-06-30 10:20:47 +0800] [17950] [INFO] Worker exiting (pid: 17950)
+<class 'sqlite3.Row'>
+<sqlite3.Row object at 0x7f6ee8d39f60>
+[{'selected': False, 'name': '儿子', 'id': '儿子'}, {'selected': False, 'name': '外公', 'id': '外公'}, {'selected': False, 'name': '外婆', 'id': '外婆'}, {'selected': False, 'name': '女主人', 'id': '女主人'}, {'selected': False, 'name': '女儿', 'id': '女儿'}, {'selected': False, 'name': '奶奶', 'id': '奶奶'}, {'selected': False, 'name': '爷爷', 'id': '爷爷'}, {'selected': False, 'name': '男主人', 'id': '男主人'}]
+[{'selected': False, 'name': '出行保境外旅行综合意外险', 'id': '出行保境外旅行综合意外险'}, {'selected': False, 'name': '友邦友童无忧高端医疗保险', 'id': '友邦友童无忧高端医疗保险'}, {'selected': False, 'name': '国寿车险', 'id': '国寿车险'}, {'selected': False, 'name': '安立宝少儿重大疾病保险', 'id': '安立宝少儿重大疾病保险'}, {'selected': False, 'name': '平安E生平安孝心保医疗款', 'id': '平安E生平安孝心保医疗款'}, {'selected': False, 'name': '平安中老年人医疗保险', 'id': '平安中老年人医疗保险'}, {'selected': False, 'name': '福享禧悦太平养老个人养老金专属税优产品', 'id': '福享禧悦太平养老个人养老金专属税优产品'}, {'selected': False, 'name': '老年日常出行意外保障', 'id': '老年日常出行意外保障'}, {'selected': False, 'name': '荣耀鑫享赢家版终身寿险', 'id': '荣耀鑫享赢家版终身寿险'}]
+[{'selected': False, 'name': '中国人寿保险股份有限公司', 'id': '中国人寿保险股份有限公司'}, {'selected': False, 'name': '中国太平保险集团有限责任公司', 'id': '中国太平保险集团有限责任公司'}, {'selected': False, 'name': '中国平安保险股份有限公司', 'id': '中国平安保险股份有限公司'}, {'selected': False, 'name': '友邦人寿保险控股有限公司', 'id': '友邦人寿保险控股有限公司'}, {'selected': False, 'name': '新华人寿保险股份有限公司', 'id': '新华人寿保险股份有限公司'}]
+<class 'list'>
+<sqlite3.Row object at 0x7f6ee8d38eb0>
+[2024-06-30 10:20:47 +0800] [17943] [ERROR] Worker (pid:17950) exited with code 1
+[2024-06-30 10:20:47 +0800] [17943] [ERROR] Worker (pid:17950) exited with code 1.
+[2024-06-30 10:20:47 +0800] [18018] [INFO] Booting worker with pid: 18018
+[2024-06-30 10:23:21 +0800] [18018] [WARNING] Invalid request from ip=120.238.248.59: Closed before TLS handshake with data in recv buffer.
+[2024-06-30 10:23:21 +0800] [17948] [WARNING] Invalid request from ip=120.238.248.59: Closed before TLS handshake with data in recv buffer.
+[2024-06-30 10:35:44 +0800] [17948] [WARNING] Invalid request from ip=223.72.69.141: Closed before TLS handshake with data in recv buffer.
+[2024-06-30 10:35:46 +0800] [17948] [WARNING] Invalid request from ip=223.72.69.141: Closed before TLS handshake with data in recv buffer.
+[2024-06-30 10:36:01 +0800] [17947] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:02 +0800] [17948] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:02 +0800] [17947] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:02 +0800] [17948] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:03 +0800] [17943] [CRITICAL] WORKER TIMEOUT (pid:17949)
+[2024-06-30 10:36:03 +0800] [17943] [CRITICAL] WORKER TIMEOUT (pid:18018)
+[2024-06-30 10:36:03 +0800] [17949] [INFO] Worker exiting (pid: 17949)
+[2024-06-30 10:36:03 +0800] [18018] [INFO] Worker exiting (pid: 18018)
+zhangsf passwrd1
+[<sqlite3.Row object at 0x7f6ee8d387f0>]
+440105197003016123
+[2024-06-30 10:36:03 +0800] [17943] [ERROR] Worker (pid:17949) exited with code 1
+[2024-06-30 10:36:03 +0800] [17943] [ERROR] Worker (pid:17949) exited with code 1.
+[2024-06-30 10:36:03 +0800] [18486] [INFO] Booting worker with pid: 18486
+[2024-06-30 10:36:03 +0800] [17943] [ERROR] Worker (pid:18018) was sent SIGKILL! Perhaps out of memory?
+[2024-06-30 10:36:03 +0800] [18487] [INFO] Booting worker with pid: 18487
+[2024-06-30 10:36:05 +0800] [18486] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:13 +0800] [18487] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:13 +0800] [18487] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:14 +0800] [18486] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:19 +0800] [17948] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
+[2024-06-30 10:36:20 +0800] [17947] [WARNING] Invalid request from ip=223.72.69.141: [SSL: HTTP_REQUEST] http request (_ssl.c:2580)
