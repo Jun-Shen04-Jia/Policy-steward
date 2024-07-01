@@ -586,6 +586,7 @@ def search():
         po.period,
         po.policy_id,
         po.start,
+        po.coverage,
         po.payment_interval,
         po.duration,
         po.file AS policy_file,
