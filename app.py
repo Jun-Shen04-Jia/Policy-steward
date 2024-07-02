@@ -11,7 +11,7 @@ import requests
 from datetime import  timedelta
 from flask import session
 import webbrowser
-# webbrowser.open("http://127.0.0.1:5000")
+webbrowser.open("http://127.0.0.1:5000")
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'insurancedb.db'
@@ -46,6 +46,19 @@ def login_post():
         print(ID)
         # Store the ID in the session
         session['user_id'] = ID
+        db = get_db()
+
+        db.execute('DROP VIEW IF EXISTS member_view')
+            # 使用参数化查询创建视图
+        user_id = session['user_id']
+        db.execute(f'CREATE VIEW member_view AS SELECT * FROM member WHERE member.ID = {user_id}')
+
+        # 获取结果
+        results = db.execute('SELECT * FROM member_view').fetchall()
+
+
+            # 确保数据库连接关闭
+        db.close()
         # Login successful, return a success message
         return jsonify(success=True)
     else:
@@ -309,7 +322,7 @@ def personal_center(user_id):
     # Replace 'your_table' with your actual table name
     query = '''
         SELECT  mem.name,mem.ID,mem.birthday,mem.identity,mem.phone_number,mem.email,mem.address,account.username,account.password
-        FROM account,member as mem
+        FROM account,member_view as mem
         WHERE account.ID=mem.ID AND account.ID=?
             '''
 
@@ -1396,4 +1409,5 @@ def ai(ID):
     print("答案:{}".format(answer))
     return jsonify(answer=answer)  # 以JSON格式返回答案
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=443)
+    app.run(debug=True, threaded=True)
+
