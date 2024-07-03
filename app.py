@@ -10,8 +10,6 @@ import openai
 import requests
 from datetime import  timedelta
 from flask import session
-import webbrowser
-webbrowser.open("http://127.0.0.1:5000")
 
 app = Flask(__name__)
 app.config['DATABASE'] = 'insurancedb.db'
